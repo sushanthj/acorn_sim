@@ -2,7 +2,6 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
 name: Deploy Jekyll site to Pages
 
@@ -10,7 +9,7 @@ on:
   push:
     branches: ["main"]
     paths:
-      - "docs/**"
+      - "documentation/**"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -32,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
     run:
-      working-directory: docs
+      working-directory: documentation
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,7 +41,7 @@ jobs:
           ruby-version: '3.3' # Not needed with a .ruby-version file
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           cache-version: 0 # Increment this number if you need to re-download cached gems
-          working-directory: '${{ github.workspace }}/docs'
+          working-directory: '${{ github.workspace }}/documentation'
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
@@ -55,7 +54,7 @@ jobs:
         # Automatically uploads an artifact from the './_site' directory by default
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "docs/_site/"
+          path: "documentation/_site/"
 
   # Deployment job
   deploy:
