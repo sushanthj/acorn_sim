@@ -1,0 +1,5 @@
+planner_srvs/FlattenedMap grid_map
+geometry_msgs/Point start
+geometry_msgs/Point goal
+---
+geometry_msgs/Point[] path
