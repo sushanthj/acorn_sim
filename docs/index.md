@@ -13,7 +13,7 @@ This is the documentation for the Acorn Gazebo Simulation. The simulation is a p
 ## References
 
 [Github](https://github.com/sushanthj/acorn_sim){: .btn .fs-5 .mb-4 .mb-md-0 }
-[Project Planning](https://github.com/users/sushanthj/projects/2/){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Project Planning](https://github.com/users/sushanthj/projects/2/){: .btn .fs-5 .mb-4 .mb-md-0 } 
 
 
 <!-- ## Example Youtube Video
