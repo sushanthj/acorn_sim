@@ -6,60 +6,60 @@
     
     "relUrl": "/intro/"
   },"1": {
+    "doc": "Bringup and Architecture",
+    "title": "Systems Overview",
+    "content": " ",
+    "url": "/docs/systems_setup/bringup_and_arch.html#systems-overview",
+    
+    "relUrl": "/docs/systems_setup/bringup_and_arch.html#systems-overview"
+  },"2": {
+    "doc": "Bringup and Architecture",
+    "title": "Setup and Installation",
+    "content": ". | Clone Repository: | . git clone https://github.com/sushanthj/acorn_sim.git . | Install Docker: Link . | Build Docker Image and Start Container: . | . cd acorn_sim/docker docker-compose build docker-compose up -d . | Enter Docker Container: | ./run_sim_docker.sh . | Build Simulation: | . colcon build source install/setup.bash . Note: display driver needs to allow docker to run GUI applications. For Ubuntu, I use the follow command to add docker to the xhost list. xhost +local:docker . | Run Simulation: | . ros2 launch simulation_launch simulation_launch.launch.py Ctrl+C # Stop Simulation . | Close Simulation: | . Ctrl+D # Exit Docker Container docker compose down . ",
+    "url": "/docs/systems_setup/bringup_and_arch.html#setup-and-installation",
+    
+    "relUrl": "/docs/systems_setup/bringup_and_arch.html#setup-and-installation"
+  },"3": {
+    "doc": "Bringup and Architecture",
+    "title": "Distributed Systems Architecture",
+    "content": ". ",
+    "url": "/docs/systems_setup/bringup_and_arch.html#distributed-systems-architecture",
+    
+    "relUrl": "/docs/systems_setup/bringup_and_arch.html#distributed-systems-architecture"
+  },"4": {
+    "doc": "Bringup and Architecture",
+    "title": "Bringup and Architecture",
+    "content": ". | Systems Overview . | Setup and Installation | Distributed Systems Architecture | . | . ",
+    "url": "/docs/systems_setup/bringup_and_arch.html",
+    
+    "relUrl": "/docs/systems_setup/bringup_and_arch.html"
+  },"5": {
     "doc": "Home",
     "title": "Acorn Gazebo Simulation",
     "content": "This is the documentation for the Acorn Gazebo Simulation. The simulation is a part of the Acorn project, which is a project to develop a low-cost, open-source, and modular robotic platform for research and education. The simulation is developed using the Gazebo simulator and the ROS (Robot Operating System) framework. The simulation is designed to be modular and extensible, so that users can easily add new components and modify existing components. ",
     "url": "/#acorn-gazebo-simulation",
     
     "relUrl": "/#acorn-gazebo-simulation"
-  },"2": {
+  },"6": {
     "doc": "Home",
     "title": "References",
     "content": "Github Project Planning . ",
     "url": "/#references",
     
     "relUrl": "/#references"
-  },"3": {
+  },"7": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "/",
     
     "relUrl": "/"
-  },"4": {
+  },"8": {
     "doc": "Systems Setup",
     "title": "Systems Setup",
     "content": " ",
-    "url": "/docs/software_bringup",
+    "url": "/docs/systems_setup",
     
-    "relUrl": "/docs/software_bringup"
-  },"5": {
-    "doc": "Docker",
-    "title": "Systems Overview",
-    "content": " ",
-    "url": "/docs/software_bringup/systems_setup.html#systems-overview",
-    
-    "relUrl": "/docs/software_bringup/systems_setup.html#systems-overview"
-  },"6": {
-    "doc": "Docker",
-    "title": "Setup and Installation",
-    "content": ". | Clone Repository: | . git clone https://github.com/sushanthj/acorn_sim.git . | Install Docker: Link . | Build Docker Image and Start Container: . | . cd acorn_sim/docker docker-compose build docker-compose up -d . | Enter Docker Container: | ./run_sim_docker.sh . | Build Simulation: | . colcon build source install/setup.bash . Note: display driver needs to allow docker to run GUI applications. For Ubuntu, I use the follow command to add docker to the xhost list. xhost +local:docker . | Run Simulation: | . ros2 launch simulation_launch simulation_launch.launch.py Ctrl+C # Stop Simulation . | Close Simulation: | . Ctrl+D # Exit Docker Container docker compose down . ",
-    "url": "/docs/software_bringup/systems_setup.html#setup-and-installation",
-    
-    "relUrl": "/docs/software_bringup/systems_setup.html#setup-and-installation"
-  },"7": {
-    "doc": "Docker",
-    "title": "Distributed Systems Architecture",
-    "content": ". ",
-    "url": "/docs/software_bringup/systems_setup.html#distributed-systems-architecture",
-    
-    "relUrl": "/docs/software_bringup/systems_setup.html#distributed-systems-architecture"
-  },"8": {
-    "doc": "Docker",
-    "title": "Docker",
-    "content": ". | Systems Overview . | Setup and Installation | Distributed Systems Architecture | . | . ",
-    "url": "/docs/software_bringup/systems_setup.html",
-    
-    "relUrl": "/docs/software_bringup/systems_setup.html"
+    "relUrl": "/docs/systems_setup"
   }
 }

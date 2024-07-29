@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Docker
+title: Bringup and Architecture
 parent: Systems Setup
 nav_order: 2
 ---
@@ -71,4 +71,4 @@ docker compose down
 
 ## Distributed Systems Architecture
 
-![](/docs/images/systems_arch/Acorn_Systems_1.png)
+![](../../images/systems_arch/Acorn_Systems_1.png)
