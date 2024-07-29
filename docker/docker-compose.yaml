@@ -22,7 +22,7 @@ services:
     volumes:
       - "/tmp/.X11-unix:/tmp/.X11-unix"
       - "${HOME}/.Xauthority:/home/admin/.Xauthority:rw"
-      - "${PWD}/../ros2_ws:/home/admin/"
+      - "${PWD}/../:/home/admin/"
       - "/dev/*:/dev/*"
     deploy:
       resources:

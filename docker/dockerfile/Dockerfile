@@ -20,6 +20,9 @@ RUN apt update && apt install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
+COPY package-setup ./package-setup
+
+RUN cd ./package-setup && ./setup-simulation-custom.sh
 
 RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 RUN echo "source /opt/ros/humble/setup.bash" >> /home/admin/.bashrc
