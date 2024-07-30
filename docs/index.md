@@ -6,7 +6,7 @@ description: "Home Page"
 permalink: /
 ---
 
-# Acorn Gazebo Simulation
+# PFR Gazebo Simulation
 
 This is the documentation for the Acorn Gazebo Simulation. The simulation is a part of the Acorn project, which is a project to develop a low-cost, open-source, and modular robotic platform for research and education. The simulation is developed using the Gazebo simulator and the ROS (Robot Operating System) framework. The simulation is designed to be modular and extensible, so that users can easily add new components and modify existing components.
 
