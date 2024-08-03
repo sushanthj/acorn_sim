@@ -1,7 +1,9 @@
 version: '3'
 services:
   ddg-humble-container:
-    build: dockerfile
+    build:
+      context: .
+      dockerfile: dockerfile/Dockerfile
     image: twisted-humblesim:latest
     container_name: twisted-humble-container
     privileged: true

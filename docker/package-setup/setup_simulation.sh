@@ -34,10 +34,10 @@ sudo apt install -y tmux
 
 #? Nav2
 sudo apt install -y ros-$ROS_DISTRO-navigation2 ros-$ROS_DISTRO-nav2-*
-sudo apt install ros-$ROS_DISTRO-robot-localization
-sudo apt install ros-$ROS_DISTRO-mapviz
-sudo apt install ros-$ROS_DISTRO-mapviz-plugins
-sudo apt install ros-$ROS_DISTRO-tile-map
+sudo apt install -y ros-$ROS_DISTRO-robot-localization
+sudo apt install -y ros-$ROS_DISTRO-mapviz
+sudo apt install -y ros-$ROS_DISTRO-mapviz-plugins
+sudo apt install -y ros-$ROS_DISTRO-tile-map
 # sudo apt install -y ros-$ROS_DISTRO-slam-toolbox
 
 #Teleop-joy
@@ -47,7 +47,7 @@ sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-joy
 sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-keyboard
 
 # rviz
-sudo apt install ros-$ROS_DISTRO-rviz2
+sudo apt install -y ros-$ROS_DISTRO-rviz2
 
 # clone git repos here...
 # git clone --branch $ROS_DISTRO     https://github.com/username/package.git
