@@ -33,7 +33,11 @@ sudo apt install -y tmux
 # Install navigation packages
 
 #? Nav2
-# sudo apt install -y ros-$ROS_DISTRO-navigation2 ros-$ROS_DISTRO-nav2-*
+sudo apt install -y ros-$ROS_DISTRO-navigation2 ros-$ROS_DISTRO-nav2-*
+sudo apt install ros-$ROS_DISTRO-robot-localization
+sudo apt install ros-$ROS_DISTRO-mapviz
+sudo apt install ros-$ROS_DISTRO-mapviz-plugins
+sudo apt install ros-$ROS_DISTRO-tile-map
 # sudo apt install -y ros-$ROS_DISTRO-slam-toolbox
 
 #Teleop-joy

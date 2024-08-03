@@ -14,61 +14,124 @@
     "relUrl": "/Jamboard/#notes"
   },"2": {
     "doc": "Jamboard",
+    "title": "Example Models and Worlds",
+    "content": ". | Simple 4 Wheel Robot | Fancy Outdoor World | MP400 URDF Setup | . ",
+    "url": "/Jamboard/#example-models-and-worlds",
+    
+    "relUrl": "/Jamboard/#example-models-and-worlds"
+  },"3": {
+    "doc": "Jamboard",
+    "title": "Process to Convert CAD to SDF and DAE",
+    "content": ". | Design CAD and export entire assembly of chassis as one object (one SLDPRT not SLDASSY) | Convert the single SLDPRT to STL | Use Blender to convert STL to DAE (after adding any necessary colors) | . Q. Is there a better way to do the DAE conversion without blender? Ans. Yes, use FreeCAD to convert STL to DAE but that seems to be more painful . Here’s a link which I found useful: Convert CAD -&gt; STL -&gt; DAE . TODO: Make a video of this for future reference . ",
+    "url": "/Jamboard/#process-to-convert-cad-to-sdf-and-dae",
+    
+    "relUrl": "/Jamboard/#process-to-convert-cad-to-sdf-and-dae"
+  },"4": {
+    "doc": "Jamboard",
+    "title": "Integrate DAE and SDF into Robot URDF and World SDF",
+    "content": " ",
+    "url": "/Jamboard/#integrate-dae-and-sdf-into-robot-urdf-and-world-sdf",
+    
+    "relUrl": "/Jamboard/#integrate-dae-and-sdf-into-robot-urdf-and-world-sdf"
+  },"5": {
+    "doc": "Jamboard",
     "title": "Jamboard",
     "content": " ",
     "url": "/Jamboard/",
     
     "relUrl": "/Jamboard/"
-  },"3": {
+  },"6": {
+    "doc": "Simulation",
+    "title": "Simulation in Gazebo",
+    "content": "Here’s we’ll discuss several parts of setting up a simulation environment in Gazebo: . | Defining 1 main chassis urdf and 4 wheel urdfs | Connecting the above urdfs to create a simple robot (using xacro) | Adding robot to a simple world | Adding Twisted Fields controller to move the robot | Improving Wheel Module Visulas by CAD -&gt; SDF -&gt; DAE -&gt; URDF (and replacing with existing wheel urdf) | Improving Chassis Visuals | Building a fancy outdoor world (or using an existing one) | Adding real plants to the world | Adding a camera to the robot | . ",
+    "url": "/docs/Simulation#simulation-in-gazebo",
+    
+    "relUrl": "/docs/Simulation#simulation-in-gazebo"
+  },"7": {
+    "doc": "Simulation",
+    "title": "Simulation",
+    "content": " ",
+    "url": "/docs/Simulation",
+    
+    "relUrl": "/docs/Simulation"
+  },"8": {
+    "doc": "Baseline URDF",
+    "title": "Introduction",
+    "content": "Let’s build a simple 4 wheel robot in a modular fashion without worrying about the visual aspects. We will use the URDF format to define the robot and the world. ",
+    "url": "/docs/Simulation/baseline_urdf.html#introduction",
+    
+    "relUrl": "/docs/Simulation/baseline_urdf.html#introduction"
+  },"9": {
+    "doc": "Baseline URDF",
+    "title": "Baseline URDF",
+    "content": " ",
+    "url": "/docs/Simulation/baseline_urdf.html#baseline-urdf",
+    
+    "relUrl": "/docs/Simulation/baseline_urdf.html#baseline-urdf"
+  },"10": {
+    "doc": "Baseline URDF",
+    "title": "Achieving Modular Design",
+    "content": ". | XACRO is a macro for URDF which allows us to import child URDFs into a parent URDF. | In our application, I wanted the wheel module to be a separate URDF which can be imported into the main URDF. | Here’s a simple example of a wheel module: | . &lt;?xml version=\"1.0\"?&gt; &lt;robot name=\"wheel\" xmlns:xacro=\"http://www.ros.org/wiki/xacro\"&gt; &lt;xacro:macro name=\"wheel\" params=\"name\"&gt; &lt;link name=\"${name}_link\"&gt; &lt;visual&gt; &lt;geometry&gt; &lt;cylinder radius=\"0.1\" length=\"0.05\"/&gt; &lt;/geometry&gt; &lt;/visual&gt; &lt;/link&gt; &lt;joint name=\"${name}_joint\" type=\"continuous\"&gt; &lt;parent link=\"${name}_link\"/&gt; &lt;child link=\"${name}_wheel\"/&gt; &lt;origin xyz=\"0 0 0.05\"/&gt; &lt;axis xyz=\"0 0 1\"/&gt; &lt;/joint&gt; &lt;link name=\"${name}_wheel\"&gt; &lt;visual&gt; &lt;geometry&gt; &lt;cylinder radius=\"0.1\" length=\"0.05\"/&gt; &lt;/geometry&gt; &lt;/visual&gt; &lt;/link&gt; &lt;/xacro:macro&gt; &lt;/robot&gt; . | The wheel macro defines a wheel with a cylinder link and a joint to connect the wheel to the robot. | The wheel macro can be imported into the main URDF using the following syntax: | . &lt;?xml version=\"1.0\"?&gt; &lt;robot name=\"robot\" xmlns:xacro=\"http://www.ros.org/wiki/xacro\"&gt; &lt;xacro:include filename=\"$(find my_robot_description)/urdf/wheel.urdf.xacro\"/&gt; &lt;xacro:wheel name=\"front_left\"/&gt; &lt;xacro:wheel name=\"front_right\"/&gt; &lt;xacro:wheel name=\"rear_left\"/&gt; &lt;xacro:wheel name=\"rear_right\"/&gt; &lt;/robot&gt; . ",
+    "url": "/docs/Simulation/baseline_urdf.html#achieving-modular-design",
+    
+    "relUrl": "/docs/Simulation/baseline_urdf.html#achieving-modular-design"
+  },"11": {
+    "doc": "Baseline URDF",
+    "title": "Baseline URDF",
+    "content": ". | Introduction | Baseline URDF . | Achieving Modular Design | . | . ",
+    "url": "/docs/Simulation/baseline_urdf.html",
+    
+    "relUrl": "/docs/Simulation/baseline_urdf.html"
+  },"12": {
     "doc": "Bringup and Architecture",
     "title": "Systems Overview",
     "content": " ",
     "url": "/docs/systems_setup/bringup_and_arch.html#systems-overview",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html#systems-overview"
-  },"4": {
+  },"13": {
     "doc": "Bringup and Architecture",
     "title": "Setup and Installation",
     "content": ". | Clone Repository: | . git clone https://github.com/sushanthj/acorn_sim.git . | Install Docker: Link . | Build Docker Image and Start Container: . | . cd acorn_sim/docker docker-compose build docker-compose up -d . | Enter Docker Container: | ./run_sim_docker.sh . | Build Simulation: | . colcon build source install/setup.bash . Note: display driver needs to allow docker to run GUI applications. For Ubuntu, I use the follow command to add docker to the xhost list. xhost +local:docker . | Run Simulation: | . ros2 launch simulation_launch simulation_launch.launch.py Ctrl+C # Stop Simulation . | Close Simulation: | . Ctrl+D # Exit Docker Container docker compose down . ",
     "url": "/docs/systems_setup/bringup_and_arch.html#setup-and-installation",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html#setup-and-installation"
-  },"5": {
+  },"14": {
     "doc": "Bringup and Architecture",
     "title": "Distributed Systems Architecture",
     "content": ". ",
     "url": "/docs/systems_setup/bringup_and_arch.html#distributed-systems-architecture",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html#distributed-systems-architecture"
-  },"6": {
+  },"15": {
     "doc": "Bringup and Architecture",
     "title": "Bringup and Architecture",
     "content": ". | Systems Overview . | Setup and Installation | Distributed Systems Architecture | . | . ",
     "url": "/docs/systems_setup/bringup_and_arch.html",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html"
-  },"7": {
+  },"16": {
     "doc": "Home",
     "title": "PFR Gazebo Simulation",
     "content": "This is the documentation for the Acorn Gazebo Simulation. The simulation is a part of the Acorn project, which is a project to develop a low-cost, open-source, and modular robotic platform for research and education. The simulation is developed using the Gazebo simulator and the ROS (Robot Operating System) framework. The simulation is designed to be modular and extensible, so that users can easily add new components and modify existing components. ",
     "url": "/#pfr-gazebo-simulation",
     
     "relUrl": "/#pfr-gazebo-simulation"
-  },"8": {
+  },"17": {
     "doc": "Home",
     "title": "References",
     "content": "Github Project Planning . ",
     "url": "/#references",
     
     "relUrl": "/#references"
-  },"9": {
+  },"18": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "/",
     
     "relUrl": "/"
-  },"10": {
+  },"19": {
     "doc": "Systems Setup",
     "title": "Systems Setup",
     "content": " ",
