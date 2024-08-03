@@ -33,7 +33,9 @@ sudo apt install -y tmux
 # Install navigation packages
 
 #? Nav2
-sudo apt install -y ros-$ROS_DISTRO-navigation2 ros-$ROS_DISTRO-nav2-*
+sudo apt install -y ros-$ROS_DISTRO-navigation2
+sudo apt install -y ros-$ROS_DISTRO-nav2-*
+sudo apt install -y ros-$ROS_DISTRO-turtlebot3-gazebo # for turtlebot3 simulation only
 sudo apt install -y ros-$ROS_DISTRO-robot-localization
 sudo apt install -y ros-$ROS_DISTRO-mapviz
 sudo apt install -y ros-$ROS_DISTRO-mapviz-plugins

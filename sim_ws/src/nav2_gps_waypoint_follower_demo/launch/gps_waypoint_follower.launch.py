@@ -18,7 +18,7 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.conditions import IfCondition
 from nav2_common.launch import RewrittenYaml
@@ -88,6 +88,7 @@ def generate_launch_description():
     # simulator launch
     ld.add_action(gazebo_cmd)
 
+    #? Delaying these launches for stability
     # robot localization launch
     ld.add_action(robot_localization_cmd)
 
@@ -99,5 +100,39 @@ def generate_launch_description():
     ld.add_action(rviz_cmd)
     ld.add_action(declare_use_mapviz_cmd)
     ld.add_action(mapviz_cmd)
+
+    # delayed_rviz = TimerAction(
+    #     period=10.0,
+    #     actions=[
+    #         declare_use_rviz_cmd,
+    #         rviz_cmd,
+    #     ]
+    # )
+    # ld.add_action(delayed_rviz)
+
+    # delayed_robot_localization = TimerAction(
+    #     period=20.0,
+    #     actions=[
+    #         robot_localization_cmd
+    #     ]
+    # )
+    # ld.add_action(delayed_robot_localization)
+
+    # delayed_nav2 = TimerAction(
+    #     period=30.0,
+    #     actions=[
+    #         navigation2_cmd
+    #     ]
+    # )
+    # ld.add_action(delayed_nav2)
+
+    # delayed_visualization = TimerAction(
+    #     period=30.0,
+    #     actions=[
+    #         declare_use_mapviz_cmd,
+    #         mapviz_cmd
+    #     ]
+    # )
+    # ld.add_action(delayed_visualization)
 
     return ld
