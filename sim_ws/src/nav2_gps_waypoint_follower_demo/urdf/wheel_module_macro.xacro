@@ -25,7 +25,7 @@
         -->
         <joint name="wheel_module_${parent_name}_joint" type="continuous">
             <parent link="${parent_name}"/>
-            <child link="$wheel_module_{parent_name}"/>
+            <child link="wheel_module_${parent_name}"/>
             <origin xyz="${cx} ${cy} ${cz}" rpy="0 0 0"/> <!--This origin is where child link is placed w.r.t parent link -->
         </joint>
 
@@ -34,26 +34,36 @@
             <visual>
                 <origin xyz="0 0 0"/> <!--This origin is w.r.t the wheel_module_${parent_name} link -->
                 <geometry>
-                    <box size="module_width_x module_width_y ${module_len}"/>
+                    <box size="${module_width_x} ${module_width_y} ${module_len}"/>
                 </geometry>
                 <material name="grey"/>
             </visual>
             <collision>
                 <origin xyz="0 0 0"/> <!--This origin is w.r.t the wheel_module_${parent_name} link -->
                 <geometry>
-                    <box size="module_width_x module_width_y ${module_len}"/>
+                    <box size="${module_width_x} ${module_width_y} ${module_len}"/>
                 </geometry>
             </collision>
-            <xacro:inertial_box mass="0.5" x="module_width_x" y="module_width_y" z="${module_len}">
+            <!-- !Hardcoded mass -->
+            <xacro:inertial_box mass="2.0" x="${module_width_x}" y="${module_width_y}" z="${module_len}">
                 <origin xyz="0 0 0" rpy="0 0 0"/>
             </xacro:inertial_box>
         </link>
 
         <!-- Define the wheel link -->
+        <xacro:if value="${side == 'left'}">
+            <xacro:property name="wheel_position_y" value="-${width}"/>
+            <xacro:property name="wheel_rpy" value="-${PI/2}"/>
+        </xacro:if>
+        <xacro:if value="${side == 'right'}">
+            <xacro:property name="wheel_position_y" value="${width}"/>
+            <xacro:property name="wheel_rpy" value="${PI/2}"/>
+        </xacro:if>
+
         <joint name="wheel_${parent_name}_joint" type="continuous">
             <parent link="wheel_module_${parent_name}"/>
             <child link="wheel_${parent_name}"/>
-            <origin xyz="0 $(if ${side} == 'left', '${width}', '-${width}') -${module_len}/2" rpy="0 0 $(if ${side} == 'left', '-${pi/2}', '${pi/2}')"/>
+            <origin xyz="0 ${wheel_position_y} -${module_len}/2" rpy="0 0 ${wheel_yaw}"/>
             <axis xyz="0 0 1"/>
         </joint>
 

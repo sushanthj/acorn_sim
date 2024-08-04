@@ -84,9 +84,9 @@
     <!-- Define the wheel modules -->
     <!-- params="parent_name mass radius width module_len module_width_x module_width_y cx cy cz side" -->
     <!-- NOTE: cx,cy,cz are the coordinates of the child link's center w.r.t the parent link -->
-    <xacro:wheel_assembly parent_name="front_left" mass="${wheel_mass}" radius="${wheel_radius}" width="${wheel_width}" module_len="${module_height}" module_width_x="${module_width_x}" module_width_y="${module_width_y}" cx="0" cy="0" cz="-${module_height}/2" side="left"/>
-    <xacro:wheel_assembly parent_name="front_right" mass="${wheel_mass}" radius="${wheel_radius}" width="${wheel_width}" module_len="${module_height}" module_width_x="${module_width_x}" module_width_y="${module_width_y}" cx="0" cy="0" cz="-${module_height}/2" side="right"/>
-    <xacro:wheel_assembly parent_name="rear_left" mass="${wheel_mass}" radius="${wheel_radius}" width="${wheel_width}" module_len="${module_height}" module_width_x="${module_width_x}" module_width_y="${module_width_y}" cx="0" cy="0" cz="-${module_height}/2" side="left"/>
-    <xacro:wheel_assembly parent_name="rear_right" mass="${wheel_mass}" radius="${wheel_radius}" width="${wheel_width}" module_len="${module_height}" module_width_x="${module_width_x}" module_width_y="${module_width_y}" cx="0" cy="0" cz="-${module_height}/2" side="right"/>
+    <xacro:wheel_assembly parent_name="front_left" mass="${wheel_mass}" radius="${wheel_radius}" width="${wheel_width}" module_len="${module_height}" module_width_x="${module_width_x}" module_width_y="${module_width_y}" cx="0" cy="0" cz="${-module_height/2.0}" side="left"/>
+    <xacro:wheel_assembly parent_name="front_right" mass="${wheel_mass}" radius="${wheel_radius}" width="${wheel_width}" module_len="${module_height}" module_width_x="${module_width_x}" module_width_y="${module_width_y}" cx="0" cy="0" cz="${-module_height/2.0}" side="right"/>
+    <xacro:wheel_assembly parent_name="rear_left" mass="${wheel_mass}" radius="${wheel_radius}" width="${wheel_width}" module_len="${module_height}" module_width_x="${module_width_x}" module_width_y="${module_width_y}" cx="0" cy="0" cz="${-module_height/2.0}" side="left"/>
+    <xacro:wheel_assembly parent_name="rear_right" mass="${wheel_mass}" radius="${wheel_radius}" width="${wheel_width}" module_len="${module_height}" module_width_x="${module_width_x}" module_width_y="${module_width_y}" cx="0" cy="0" cz="${-module_height/2.0}" side="right"/>
 
 </robot>
