@@ -16,21 +16,18 @@
         - cx, cy, cz = The position of center of wheel module w.r.t parent frame
         - side: left or right
     -->
-    <xacro:macro name="wheel_assembly" params="parent_name mass radius width module_len cx cy cz side">
+    <xacro:macro name="wheel_assembly" params="parent_name mass radius width module_len module_width_x module_width_y cx cy cz side">
         <!--
         Firstly create a link for the wheel module
         Then create a joint to connect the wheel module to the parent link
         Then create a link for wheel
         Then create a joint to connect the wheel to the wheel module
         -->
-        <joint name="joint_steering_to_wheel_${name}" type="continuous">
+        <joint name="wheel_module_${parent_name}_joint" type="continuous">
             <parent link="${parent_name}"/>
             <child link="$wheel_module_{parent_name}"/>
             <origin xyz="${cx} ${cy} ${cz}" rpy="0 0 0"/> <!--This origin is where child link is placed w.r.t parent link -->
         </joint>
-
-        <xacro:property name="module_width_y" value="0.15"/> <!-- Width of arm along y axis -->
-        <xacro:property name="module_width_x" value="0.2"/> <!-- Width of arm along x axis -->
 
         <!-- Define the wheel module link -->
         <link name="wheel_module_${parent_name}">
@@ -53,7 +50,7 @@
         </link>
 
         <!-- Define the wheel link -->
-        <joint name="wheel_${parent_name}" type="continuous">
+        <joint name="wheel_${parent_name}_joint" type="continuous">
             <parent link="wheel_module_${parent_name}"/>
             <child link="wheel_${parent_name}"/>
             <origin xyz="0 $(if ${side} == 'left', '${width}', '-${width}') -${module_len}/2" rpy="0 0 $(if ${side} == 'left', '-${pi/2}', '${pi/2}')"/>
