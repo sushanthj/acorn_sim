@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
 
     <!-- <xacro:include filename="robot_core.xacro" /> -->
 
@@ -13,34 +13,45 @@
     <!-- <xacro:arg name="is_simulation" default="true" /> -->
 
     <!-- Chassis dimensions -->
-    <xacro:property name="chassis_mass" value="30.0" /> <!-- kilograms -->
-    <xacro:property name="chassis_length" value="3" /> <!-- meters -->
-    <xacro:property name="chassis_width" value="1.5" />
-    <xacro:property name="chassis_height" value="0.3" />
+    <xacro:property name="chassis_mass" value="30.0"/> <!-- kilograms -->
+    <xacro:property name="chassis_length" value="3"/> <!-- meters -->
+    <xacro:property name="chassis_width" value="1.5"/>
+    <xacro:property name="chassis_height" value="0.3"/>
 
     <!-- Wheel Module dimensions -->
-    <xacro:property name="base_to_module_x" value="1.2" /> <!-- meters -->
-    <xacro:property name="base_to_module_y" value="0.6" />
-    <xacro:property name="module_width_x" value="0.2" />
-    <xacro:property name="module_width_y" value="0.15" />
-    <xacro:property name="module_height" value="0.8" />
+    <xacro:property name="base_to_module_x" value="1.2"/> <!-- meters -->
+    <xacro:property name="base_to_module_y" value="0.6"/>
+    <xacro:property name="module_width_x" value="0.2"/>
+    <xacro:property name="module_width_y" value="0.15"/>
+    <xacro:property name="module_height" value="0.8"/>
 
     <!-- Wheel dimensions -->
-    <xacro:property name="wheel_mass" value="1.0" /> <!-- kilograms -->
-    <xacro:property name="wheel_radius" value="0.3" /> <!-- meters -->
-    <xacro:property name="wheel_width" value="0.1" />
+    <xacro:property name="wheel_mass" value="1.0"/> <!-- kilograms -->
+    <xacro:property name="wheel_radius" value="0.3"/> <!-- meters -->
+    <xacro:property name="wheel_width" value="0.1"/>
 
     <!-- Define a base link for the robot -->
     <link name="base_link">
+    </link>
+
+    <!-- Define a chassis link for the robot -->
+    <joint name="chassis_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis"/>
+        Place the chassis at half of chassis height above the base link
+        <origin xyz="0 0 ${chassis_height/2.0}" rpy="0 0 0"/>
+    </joint>
+
+    <link name="chassis">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 0"/>
             <geometry>
                 <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
             </geometry>
             <material name="grey"/>
         </visual>
         <collision>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 0"/>
             <geometry>
                 <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
             </geometry>
@@ -48,13 +59,6 @@
         <xacro:inertial_box mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_height}">
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_box>
-    </link>
-
-    <!-- Define 4 static links which will be used to connect the wheel modules to the base link -->
-    <link name="front_left"> </link>
-    <link name="front_right"> </link>
-    <link name="rear_left"> </link>
-    <link name="rear_right"> </link>
 
     <!-- Define joints to connect static links to the base link -->
     <joint name="FL_joint" type="fixed">
@@ -80,6 +84,16 @@
         <child link="rear_right"/>
         <origin xyz="-${base_to_module_x} -${base_to_module_y} 0" rpy="0 0 0"/>
     </joint>
+
+    <!-- Define 4 static links which will be used to connect the wheel modules to the base link -->
+    <link name="front_left">
+    </link>
+    <link name="front_right">
+    </link>
+    <link name="rear_left">
+    </link>
+    <link name="rear_right">
+    </link>
 
     <!-- Define the wheel modules -->
     <!-- params="parent_name mass radius width module_len module_width_x module_width_y cx cy cz side" -->
