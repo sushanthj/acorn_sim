@@ -38,7 +38,7 @@
     <joint name="chassis_joint" type="fixed">
         <parent link="base_link"/>
         <child link="chassis"/>
-        Place the chassis at half of chassis height above the base link
+        <!-- Place the chassis at half of chassis height above the base link -->
         <origin xyz="0 0 ${chassis_height/2.0}" rpy="0 0 0"/>
     </joint>
 
@@ -59,6 +59,7 @@
         <xacro:inertial_box mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_height}">
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_box>
+    </link>
 
     <!-- Define joints to connect static links to the base link -->
     <joint name="FL_joint" type="fixed">
