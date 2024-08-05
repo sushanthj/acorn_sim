@@ -188,6 +188,27 @@
     
     "relUrl": "/"
   },"27": {
+    "doc": "Nav2 with GPS",
+    "title": "Nav2 with GPS",
+    "content": "Reference: Navigating Using GPS Localization . Every Nav2 stack for mobile robots has three frames which are needed for navigation: . | Map frame | Odom frame | Base frame | . | Generally map-&gt;odom is updated by the localization system (like AMCL) | Odom-&gt;base is updated by the robot’s odometry system | But in our case, we use GPS to update the map-&gt;odom transform | . ",
+    "url": "/docs/Simulation/nav2_outdoor_stack.html#nav2-with-gps",
+    
+    "relUrl": "/docs/Simulation/nav2_outdoor_stack.html#nav2-with-gps"
+  },"28": {
+    "doc": "Nav2 with GPS",
+    "title": "Setup",
+    "content": ". ",
+    "url": "/docs/Simulation/nav2_outdoor_stack.html#setup",
+    
+    "relUrl": "/docs/Simulation/nav2_outdoor_stack.html#setup"
+  },"29": {
+    "doc": "Nav2 with GPS",
+    "title": "Nav2 with GPS",
+    "content": ". | Nav2 with GPS . | Setup | . | . ",
+    "url": "/docs/Simulation/nav2_outdoor_stack.html",
+    
+    "relUrl": "/docs/Simulation/nav2_outdoor_stack.html"
+  },"30": {
     "doc": "Systems Setup",
     "title": "Systems Setup",
     "content": " ",
