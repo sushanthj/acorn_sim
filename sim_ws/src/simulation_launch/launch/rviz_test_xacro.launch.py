@@ -16,10 +16,7 @@ def generate_launch_description():
     package_dir = get_package_share_directory('simulation_launch')
     rviz_config_file = os.path.join(package_dir,'rviz', 'rviz_config.rviz')
 
-    # URDF file (if not using xacro)
-    # urdf_file = os.path.join(package_dir, 'description', 'robot.urdf.xacro')
-
-    # if using xacro
+    # if using xacro it needs to be processed first
     xacro_file = os.path.join(package_dir, 'description', 'robot.urdf.xacro')
     robot_description_config = xacro.process_file(xacro_file)
     params = {'robot_description': robot_description_config.toxml(), 'use_sim_time': use_sim_time}
@@ -42,5 +39,12 @@ def generate_launch_description():
             name='robot_state_publisher',
             output='screen',
             parameters=[params]
+        ),
+        # Create a joint_state_publisher_gui node
+        Node(
+            package='joint_state_publisher_gui',
+            executable='joint_state_publisher_gui',
+            name='joint_state_publisher_gui',
+            output='screen'
         )
     ])

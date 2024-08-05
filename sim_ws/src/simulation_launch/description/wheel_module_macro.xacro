@@ -23,7 +23,7 @@
         Then create a link for wheel
         Then create a joint to connect the wheel to the wheel module
         -->
-        <joint name="wheel_module_${parent_name}_joint" type="continuous">
+        <joint name="wheel_module_${parent_name}_joint" type="fixed">
             <parent link="${parent_name}"/>
             <child link="wheel_module_${parent_name}"/>
             <origin xyz="${cx} ${cy} ${cz}" rpy="0 0 0"/> <!-- This origin is where child link is placed w.r.t parent link -->

@@ -21,117 +21,124 @@
     "relUrl": "/Jamboard/#example-models-and-worlds"
   },"3": {
     "doc": "Jamboard",
+    "title": "Convert XACRO to URDF",
+    "content": "ros2 run xacro xacro -o robot.urdf robot.urdf.xacro . | The above script will convert the xacro file to urdf file | This can also be done in the launch file. Here’s two different launch files: | . Launch File for URDF . import os from launch import LaunchDescription from launch_ros.actions import Node from ament_index_python.packages import get_package_share_directory def generate_launch_description(): pkg_share = get_package_share_directory('simulation_launch') urdf_file = os.path.join(pkg_share, 'description', 'robot.urdf') with open(urdf_file, 'r') as infp: robot_description = infp.read() return LaunchDescription([ Node( package='robot_state_publisher', executable='robot_state_publisher', output='screen', parameters=[{'robot_description': robot_description}], ), Node( package='rviz2', executable='rviz2', name='rviz2', output='screen', arguments=['-d', os.path.join(pkg_share, 'rviz', 'rviz_config.rviz')], ), # Create a joint_state_publisher_gui node Node( package='joint_state_publisher_gui', executable='joint_state_publisher_gui', name='joint_state_publisher_gui', output='screen' ) ]) . Launch File for XACRO . import os import launch import xacro import launch_ros.actions from launch import LaunchDescription from launch.substitutions import LaunchConfiguration from launch.actions import DeclareLaunchArgument from launch_ros.actions import Node from ament_index_python.packages import get_package_share_directory def generate_launch_description(): # Check if we're told to use sim time use_sim_time = LaunchConfiguration('use_sim_time') package_dir = get_package_share_directory('simulation_launch') rviz_config_file = os.path.join(package_dir,'rviz', 'rviz_config.rviz') # if using xacro it needs to be processed first xacro_file = os.path.join(package_dir, 'description', 'robot.urdf.xacro') robot_description_config = xacro.process_file(xacro_file) params = {'robot_description': robot_description_config.toxml(), 'use_sim_time': use_sim_time} return LaunchDescription([ DeclareLaunchArgument( 'use_sim_time', default_value='false', description='Use sim time if true'), Node( package='rviz2', executable='rviz2', name='rviz2', output='screen', arguments=['-d', rviz_config_file] ), Node( package='robot_state_publisher', executable='robot_state_publisher', name='robot_state_publisher', output='screen', parameters=[params] ), # Create a joint_state_publisher_gui node Node( package='joint_state_publisher_gui', executable='joint_state_publisher_gui', name='joint_state_publisher_gui', output='screen' ) ]) . NOTE: Continuous Joints are not shown until a joint state is published. This can be done using the joint_state_publisher_gui node. ",
+    "url": "/Jamboard/#convert-xacro-to-urdf",
+    
+    "relUrl": "/Jamboard/#convert-xacro-to-urdf"
+  },"4": {
+    "doc": "Jamboard",
     "title": "Process to Convert CAD to SDF and DAE",
     "content": ". | Design CAD and export entire assembly of chassis as one object (one SLDPRT not SLDASSY) | Convert the single SLDPRT to STL | Use Blender to convert STL to DAE (after adding any necessary colors) | . Q. Is there a better way to do the DAE conversion without blender? Ans. Yes, use FreeCAD to convert STL to DAE but that seems to be more painful . Here’s a link which I found useful: Convert CAD -&gt; STL -&gt; DAE . TODO: Make a video of this for future reference . ",
     "url": "/Jamboard/#process-to-convert-cad-to-sdf-and-dae",
     
     "relUrl": "/Jamboard/#process-to-convert-cad-to-sdf-and-dae"
-  },"4": {
+  },"5": {
     "doc": "Jamboard",
     "title": "Integrate DAE and SDF into Robot URDF and World SDF",
     "content": " ",
     "url": "/Jamboard/#integrate-dae-and-sdf-into-robot-urdf-and-world-sdf",
     
     "relUrl": "/Jamboard/#integrate-dae-and-sdf-into-robot-urdf-and-world-sdf"
-  },"5": {
+  },"6": {
     "doc": "Jamboard",
     "title": "Jamboard",
     "content": " ",
     "url": "/Jamboard/",
     
     "relUrl": "/Jamboard/"
-  },"6": {
+  },"7": {
     "doc": "Simulation",
     "title": "Simulation in Gazebo",
     "content": "Here’s we’ll discuss several parts of setting up a simulation environment in Gazebo: . | Defining 1 main chassis urdf and 4 wheel urdfs | Connecting the above urdfs to create a simple robot (using xacro) | Adding robot to a simple world | Adding Twisted Fields controller to move the robot | Improving Wheel Module Visulas by CAD -&gt; SDF -&gt; DAE -&gt; URDF (and replacing with existing wheel urdf) | Improving Chassis Visuals | Building a fancy outdoor world (or using an existing one) | Adding real plants to the world | Adding a camera to the robot | . ",
     "url": "/docs/Simulation#simulation-in-gazebo",
     
     "relUrl": "/docs/Simulation#simulation-in-gazebo"
-  },"7": {
+  },"8": {
     "doc": "Simulation",
     "title": "Simulation",
     "content": " ",
     "url": "/docs/Simulation",
     
     "relUrl": "/docs/Simulation"
-  },"8": {
+  },"9": {
     "doc": "Baseline URDF",
     "title": "Introduction",
     "content": "Let’s build a simple 4 wheel robot in a modular fashion without worrying about the visual aspects. We will use the URDF format to define the robot and the world. ",
     "url": "/docs/Simulation/baseline_urdf.html#introduction",
     
     "relUrl": "/docs/Simulation/baseline_urdf.html#introduction"
-  },"9": {
+  },"10": {
     "doc": "Baseline URDF",
     "title": "Baseline URDF",
     "content": " ",
     "url": "/docs/Simulation/baseline_urdf.html#baseline-urdf",
     
     "relUrl": "/docs/Simulation/baseline_urdf.html#baseline-urdf"
-  },"10": {
+  },"11": {
     "doc": "Baseline URDF",
     "title": "Achieving Modular Design",
     "content": ". | XACRO is a macro for URDF which allows us to import child URDFs into a parent URDF. | In our application, I wanted the wheel module to be a separate URDF which can be imported into the main URDF. | Here’s a simple example of a wheel module: | . &lt;?xml version=\"1.0\"?&gt; &lt;robot name=\"wheel\" xmlns:xacro=\"http://www.ros.org/wiki/xacro\"&gt; &lt;xacro:macro name=\"wheel\" params=\"name\"&gt; &lt;link name=\"${name}_link\"&gt; &lt;visual&gt; &lt;geometry&gt; &lt;cylinder radius=\"0.1\" length=\"0.05\"/&gt; &lt;/geometry&gt; &lt;/visual&gt; &lt;/link&gt; &lt;joint name=\"${name}_joint\" type=\"continuous\"&gt; &lt;parent link=\"${name}_link\"/&gt; &lt;child link=\"${name}_wheel\"/&gt; &lt;origin xyz=\"0 0 0.05\"/&gt; &lt;axis xyz=\"0 0 1\"/&gt; &lt;/joint&gt; &lt;link name=\"${name}_wheel\"&gt; &lt;visual&gt; &lt;geometry&gt; &lt;cylinder radius=\"0.1\" length=\"0.05\"/&gt; &lt;/geometry&gt; &lt;/visual&gt; &lt;/link&gt; &lt;/xacro:macro&gt; &lt;/robot&gt; . | The wheel macro defines a wheel with a cylinder link and a joint to connect the wheel to the robot. | The wheel macro can be imported into the main URDF using the following syntax: | . &lt;?xml version=\"1.0\"?&gt; &lt;robot name=\"robot\" xmlns:xacro=\"http://www.ros.org/wiki/xacro\"&gt; &lt;xacro:include filename=\"$(find my_robot_description)/urdf/wheel.urdf.xacro\"/&gt; &lt;xacro:wheel name=\"front_left\"/&gt; &lt;xacro:wheel name=\"front_right\"/&gt; &lt;xacro:wheel name=\"rear_left\"/&gt; &lt;xacro:wheel name=\"rear_right\"/&gt; &lt;/robot&gt; . ",
     "url": "/docs/Simulation/baseline_urdf.html#achieving-modular-design",
     
     "relUrl": "/docs/Simulation/baseline_urdf.html#achieving-modular-design"
-  },"11": {
+  },"12": {
     "doc": "Baseline URDF",
     "title": "Baseline URDF",
     "content": ". | Introduction | Baseline URDF . | Achieving Modular Design | . | . ",
     "url": "/docs/Simulation/baseline_urdf.html",
     
     "relUrl": "/docs/Simulation/baseline_urdf.html"
-  },"12": {
+  },"13": {
     "doc": "Bringup and Architecture",
     "title": "Systems Overview",
     "content": " ",
     "url": "/docs/systems_setup/bringup_and_arch.html#systems-overview",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html#systems-overview"
-  },"13": {
+  },"14": {
     "doc": "Bringup and Architecture",
     "title": "Setup and Installation",
     "content": ". | Clone Repository: | . git clone https://github.com/sushanthj/acorn_sim.git . | Install Docker: Link . | Build Docker Image and Start Container: . | . cd acorn_sim/docker docker-compose build docker-compose up -d . | Enter Docker Container: | ./run_sim_docker.sh . | Build Simulation: | . colcon build source install/setup.bash . Note: display driver needs to allow docker to run GUI applications. For Ubuntu, I use the follow command to add docker to the xhost list. xhost +local:docker . | Run Simulation: | . ros2 launch simulation_launch simulation_launch.launch.py Ctrl+C # Stop Simulation . | Close Simulation: | . Ctrl+D # Exit Docker Container docker compose down . ",
     "url": "/docs/systems_setup/bringup_and_arch.html#setup-and-installation",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html#setup-and-installation"
-  },"14": {
+  },"15": {
     "doc": "Bringup and Architecture",
     "title": "Distributed Systems Architecture",
     "content": ". ",
     "url": "/docs/systems_setup/bringup_and_arch.html#distributed-systems-architecture",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html#distributed-systems-architecture"
-  },"15": {
+  },"16": {
     "doc": "Bringup and Architecture",
     "title": "Bringup and Architecture",
     "content": ". | Systems Overview . | Setup and Installation | Distributed Systems Architecture | . | . ",
     "url": "/docs/systems_setup/bringup_and_arch.html",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html"
-  },"16": {
+  },"17": {
     "doc": "Home",
     "title": "PFR Gazebo Simulation",
     "content": "This is the documentation for the Acorn Gazebo Simulation. The simulation is a part of the Acorn project, which is a project to develop a low-cost, open-source, and modular robotic platform for research and education. The simulation is developed using the Gazebo simulator and the ROS (Robot Operating System) framework. The simulation is designed to be modular and extensible, so that users can easily add new components and modify existing components. ",
     "url": "/#pfr-gazebo-simulation",
     
     "relUrl": "/#pfr-gazebo-simulation"
-  },"17": {
+  },"18": {
     "doc": "Home",
     "title": "References",
     "content": "Github Project Planning . ",
     "url": "/#references",
     
     "relUrl": "/#references"
-  },"18": {
+  },"19": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "/",
     
     "relUrl": "/"
-  },"19": {
+  },"20": {
     "doc": "Systems Setup",
     "title": "Systems Setup",
     "content": " ",

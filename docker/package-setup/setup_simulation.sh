@@ -41,6 +41,8 @@ sudo apt install -y ros-$ROS_DISTRO-mapviz
 sudo apt install -y ros-$ROS_DISTRO-mapviz-plugins
 sudo apt install -y ros-$ROS_DISTRO-multires-image
 sudo apt install -y ros-$ROS_DISTRO-tile-map
+sudo apt install -y ros-$ROS_DISTRO-joint-state-publisher-gui
+sudo apt install -y ros-$ROS_DISTRO-joint-state-publisher
 # sudo apt install -y ros-$ROS_DISTRO-slam-toolbox
 
 #Teleop-joy
