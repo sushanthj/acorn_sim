@@ -10,10 +10,10 @@ find_package(ament_cmake REQUIRED)
 
 install(DIRECTORY launch
   maps
-  robots
+  robot_urdfs
+  robot_gazebo_models
   rviz
   worlds
-  description
   DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
