@@ -62,83 +62,132 @@
     
     "relUrl": "/docs/Simulation"
   },"9": {
+    "doc": "Acorn URDF Differntial Drive",
+    "title": "Acorn URDF Differential Drive",
+    "content": ". The first version of acorn in simulation will be a simple differential drive robot with 4 actuated wheels. ",
+    "url": "/docs/Simulation/acorn_urdf_diff_drive.html#acorn-urdf-differential-drive",
+    
+    "relUrl": "/docs/Simulation/acorn_urdf_diff_drive.html#acorn-urdf-differential-drive"
+  },"10": {
+    "doc": "Acorn URDF Differntial Drive",
+    "title": "TF2 Frames and Links",
+    "content": ". The robot will have the following frames and links: . | base_footprint : Parent frame for all other frames and also needed by Nav2 | base_link : Base center of robot chassis | Reference Frames . | front_left | front_right | rear_left | rear_right | . | Wheel Module Frames . | wheel_module_front_left | wheel_module_front_right | wheel_module_rear_left | wheel_module_rear_right | . | Wheel Frames . | wheel_front_left | wheel_front_right | wheel_rear_left | wheel_rear_right | . | . ",
+    "url": "/docs/Simulation/acorn_urdf_diff_drive.html#tf2-frames-and-links",
+    
+    "relUrl": "/docs/Simulation/acorn_urdf_diff_drive.html#tf2-frames-and-links"
+  },"11": {
+    "doc": "Acorn URDF Differntial Drive",
+    "title": "XACRO Macros and URDF",
+    "content": ". | Similar to the Baseline URDF, we will use XACRO macros to define the wheel modules and wheels. | The chassis, sensors, and GPS will be defined in the main URDF file. | . Wheel Module XACRO . &lt;?xml version=\"1.0\" ?&gt; &lt;robot xmlns:xacro=\"http://www.ros.org/wiki/xacro\"&gt; &lt;include filename=\"color_macro.xacro\"/&gt; &lt;include filename=\"inertia_macro.xacro\"/&gt; &lt;!-- A macro to create a wheel module (including links and joints) NOTE: A joint is just a relationship between two links (two frames) Parameters: - parent_name: Name of parent link, e.g. left_rear - mass: Mass of the wheel in kilogram - radius: Radius of the wheel in meters - width: Width of the wheel in meters - module_len: Height of wheel module in meters - cx, cy, cz = The position of center of wheel module w.r.t parent frame - side: left or right --&gt; &lt;xacro:macro name=\"wheel_assembly\" params=\"parent_name mass radius width module_len module_width_x module_width_y cx cy cz side\"&gt; &lt;!-- Firstly create a link for the wheel module Then create a joint to connect the wheel module to the parent link Then create a link for wheel Then create a joint to connect the wheel to the wheel module --&gt; &lt;joint name=\"wheel_module_${parent_name}_joint\" type=\"fixed\"&gt; &lt;parent link=\"${parent_name}\"/&gt; &lt;child link=\"wheel_module_${parent_name}\"/&gt; &lt;!-- This origin is where child link is placed w.r.t parent link --&gt; &lt;origin xyz=\"${cx} ${cy} ${cz}\" rpy=\"0 0 0\"/&gt; &lt;/joint&gt; &lt;!-- Define the wheel module link --&gt; &lt;link name=\"wheel_module_${parent_name}\"&gt; &lt;visual&gt; &lt;origin xyz=\"0 0 0\"/&gt; &lt;geometry&gt; &lt;box size=\"${module_width_x} ${module_width_y} ${module_len}\"/&gt; &lt;/geometry&gt; &lt;material name=\"grey\"/&gt; &lt;/visual&gt; &lt;/link&gt; &lt;joint name=\"wheel_${parent_name}_joint\" type=\"continuous\"&gt; &lt;parent link=\"wheel_module_${parent_name}\"/&gt; &lt;child link=\"wheel_${parent_name}\"/&gt; &lt;origin xyz=\"0 ${wheel_position_y} ${-module_len/2.0}\" rpy=\"${wheel_pitch} 0 0\"/&gt; &lt;axis xyz=\"0 0 1\"/&gt; &lt;/joint&gt; &lt;link name=\"wheel_${parent_name}\"&gt; &lt;/link&gt; &lt;/xacro:macro&gt; &lt;/robot&gt; . Main URDF . &lt;?xml version=\"1.0\"?&gt; &lt;robot xmlns:xacro=\"http://www.ros.org/wiki/xacro\" name=\"robot\"&gt; &lt;!-- &lt;xacro:include filename=\"robot_core.xacro\" /&gt; --&gt; &lt;!-- REFER TO IMAGES FOLDER FOR VISUAL REPRESENTATION OF THE ROBOT --&gt; &lt;xacro:include filename=\"wheel_module_macro.xacro\" /&gt; &lt;xacro:include filename=\"color_macro.xacro\" /&gt; &lt;xacro:include filename=\"inertia_macro.xacro\" /&gt; &lt;!-- CONSTANTS --&gt; &lt;xacro:property name=\"PI\" value=\"3.1415926535897931\"/&gt; &lt;!-- &lt;xacro:arg name=\"is_simulation\" default=\"true\" /&gt; --&gt; &lt;!-- Chassis dimensions --&gt; &lt;xacro:property name=\"chassis_mass\" value=\"30.0\"/&gt; &lt;!-- kilograms --&gt; &lt;xacro:property name=\"chassis_length\" value=\"3\"/&gt; &lt;!-- meters --&gt; &lt;xacro:property name=\"chassis_width\" value=\"1.5\"/&gt; &lt;xacro:property name=\"chassis_height\" value=\"0.3\"/&gt; &lt;!-- Wheel Module dimensions --&gt; &lt;xacro:property name=\"base_to_module_x\" value=\"1.2\"/&gt; &lt;!-- meters --&gt; &lt;xacro:property name=\"base_to_module_y\" value=\"0.6\"/&gt; &lt;xacro:property name=\"module_width_x\" value=\"0.2\"/&gt; &lt;xacro:property name=\"module_width_y\" value=\"0.15\"/&gt; &lt;xacro:property name=\"module_height\" value=\"0.8\"/&gt; &lt;!-- Wheel dimensions --&gt; &lt;xacro:property name=\"wheel_mass\" value=\"1.0\"/&gt; &lt;!-- kilograms --&gt; &lt;xacro:property name=\"wheel_radius\" value=\"0.3\"/&gt; &lt;!-- meters --&gt; &lt;xacro:property name=\"wheel_width\" value=\"0.1\"/&gt; &lt;!-- Define a base links for the robot. base_link and base_footprint needed for Nav2 --&gt; &lt;link name=\"base_footprint\"/&gt; &lt;joint name=\"base_joint\" type=\"fixed\"&gt; &lt;parent link=\"base_footprint\"/&gt; &lt;child link=\"base_link\"/&gt; &lt;origin xyz=\"0 0 ${module_height + wheel_radius}\" rpy=\"0 0 0\"/&gt; &lt;/joint&gt; &lt;link name=\"base_link\"/&gt; &lt;!-- Define a chassis link for the robot --&gt; &lt;joint name=\"chassis_joint\" type=\"fixed\"&gt; &lt;parent link=\"base_link\"/&gt; &lt;child link=\"chassis\"/&gt; &lt;!-- Place the chassis at half of chassis height above the base link --&gt; &lt;origin xyz=\"0 0 ${chassis_height/2.0}\" rpy=\"0 0 0\"/&gt; &lt;/joint&gt; &lt;link name=\"chassis\"&gt; &lt;/link&gt; &lt;!-- 4 static links which will be used to connect the wheel modules to the base link --&gt; &lt;link name=\"front_left\"&gt; &lt;/link&gt; &lt;link name=\"front_right\"&gt; &lt;/link&gt; &lt;link name=\"rear_left\"&gt; &lt;/link&gt; &lt;link name=\"rear_right\"&gt; &lt;/link&gt; &lt;!-- Define the wheel modules --&gt; &lt;!-- params=\"parent_name mass radius width module_len module_width_x ...\" --&gt; &lt;!-- NOTE: cx,cy,cz are the coordinates of the child link's center w.r.t the parent --&gt; &lt;xacro:wheel_assembly parent_name=\"front_left\" mass=\"${wheel_mass}\" radius=\"${wheel_radius}\" width=\"${wheel_width}\" module_len=\"${module_height}\" module_width_x=\"${module_width_x}\" module_width_y=\"${module_width_y}\" cx=\"0\" cy=\"0\" cz=\"${-module_height/2.0}\" side=\"left\"/&gt; &lt;xacro:wheel_assembly parent_name=\"front_right\" mass=\"${wheel_mass}\" radius=\"${wheel_radius}\" width=\"${wheel_width}\" module_len=\"${module_height}\" module_width_x=\"${module_width_x}\" module_width_y=\"${module_width_y}\"] cx=\"0\" cy=\"0\" cz=\"${-module_height/2.0}\" side=\"right\"/&gt; &lt;/robot&gt; . ",
+    "url": "/docs/Simulation/acorn_urdf_diff_drive.html#xacro-macros-and-urdf",
+    
+    "relUrl": "/docs/Simulation/acorn_urdf_diff_drive.html#xacro-macros-and-urdf"
+  },"12": {
+    "doc": "Acorn URDF Differntial Drive",
+    "title": "Robot State Publisher and Joint State Publisher",
+    "content": ". | The robot state publisher is used to publish all static (fixed) joints in URDF as TF2 frames | Joint State Publisher is used to publish tf2 frames between non-fixed joints (wheels in this case) | . RViz Visualization . ",
+    "url": "/docs/Simulation/acorn_urdf_diff_drive.html#robot-state-publisher-and-joint-state-publisher",
+    
+    "relUrl": "/docs/Simulation/acorn_urdf_diff_drive.html#robot-state-publisher-and-joint-state-publisher"
+  },"13": {
+    "doc": "Acorn URDF Differntial Drive",
+    "title": "Adding Sensors and GPS",
+    "content": " ",
+    "url": "/docs/Simulation/acorn_urdf_diff_drive.html#adding-sensors-and-gps",
+    
+    "relUrl": "/docs/Simulation/acorn_urdf_diff_drive.html#adding-sensors-and-gps"
+  },"14": {
+    "doc": "Acorn URDF Differntial Drive",
+    "title": "Acorn URDF Differntial Drive",
+    "content": ". | Acorn URDF Differential Drive . | TF2 Frames and Links | XACRO Macros and URDF . | Wheel Module XACRO | Main URDF | . | Robot State Publisher and Joint State Publisher . | RViz Visualization | . | Adding Sensors and GPS | . | . ",
+    "url": "/docs/Simulation/acorn_urdf_diff_drive.html",
+    
+    "relUrl": "/docs/Simulation/acorn_urdf_diff_drive.html"
+  },"15": {
     "doc": "Baseline URDF",
     "title": "Introduction",
     "content": "Let’s build a simple 4 wheel robot in a modular fashion without worrying about the visual aspects. We will use the URDF format to define the robot and the world. ",
     "url": "/docs/Simulation/baseline_urdf.html#introduction",
     
     "relUrl": "/docs/Simulation/baseline_urdf.html#introduction"
-  },"10": {
+  },"16": {
     "doc": "Baseline URDF",
     "title": "Baseline URDF",
     "content": " ",
     "url": "/docs/Simulation/baseline_urdf.html#baseline-urdf",
     
     "relUrl": "/docs/Simulation/baseline_urdf.html#baseline-urdf"
-  },"11": {
+  },"17": {
     "doc": "Baseline URDF",
     "title": "Achieving Modular Design",
-    "content": ". | XACRO is a macro for URDF which allows us to import child URDFs into a parent URDF. | In our application, I wanted the wheel module to be a separate URDF which can be imported into the main URDF. | Here’s a simple example of a wheel module: | . &lt;?xml version=\"1.0\"?&gt; &lt;robot name=\"wheel\" xmlns:xacro=\"http://www.ros.org/wiki/xacro\"&gt; &lt;xacro:macro name=\"wheel\" params=\"name\"&gt; &lt;link name=\"${name}_link\"&gt; &lt;visual&gt; &lt;geometry&gt; &lt;cylinder radius=\"0.1\" length=\"0.05\"/&gt; &lt;/geometry&gt; &lt;/visual&gt; &lt;/link&gt; &lt;joint name=\"${name}_joint\" type=\"continuous\"&gt; &lt;parent link=\"${name}_link\"/&gt; &lt;child link=\"${name}_wheel\"/&gt; &lt;origin xyz=\"0 0 0.05\"/&gt; &lt;axis xyz=\"0 0 1\"/&gt; &lt;/joint&gt; &lt;link name=\"${name}_wheel\"&gt; &lt;visual&gt; &lt;geometry&gt; &lt;cylinder radius=\"0.1\" length=\"0.05\"/&gt; &lt;/geometry&gt; &lt;/visual&gt; &lt;/link&gt; &lt;/xacro:macro&gt; &lt;/robot&gt; . | The wheel macro defines a wheel with a cylinder link and a joint to connect the wheel to the robot. | The wheel macro can be imported into the main URDF using the following syntax: | . &lt;?xml version=\"1.0\"?&gt; &lt;robot name=\"robot\" xmlns:xacro=\"http://www.ros.org/wiki/xacro\"&gt; &lt;xacro:include filename=\"$(find my_robot_description)/urdf/wheel.urdf.xacro\"/&gt; &lt;xacro:wheel name=\"front_left\"/&gt; &lt;xacro:wheel name=\"front_right\"/&gt; &lt;xacro:wheel name=\"rear_left\"/&gt; &lt;xacro:wheel name=\"rear_right\"/&gt; &lt;/robot&gt; . ",
+    "content": ". | XACRO is a macro for URDF which allows us to import child URDFs into a parent URDF. | In our application, I wanted the wheel module to be a separate URDF which can be imported into the main URDF. | Here’s a simple example of a wheel module in a file called wheel.urdf.xacro: | . &lt;?xml version=\"1.0\"?&gt; &lt;robot name=\"wheel\" xmlns:xacro=\"http://www.ros.org/wiki/xacro\"&gt; &lt;xacro:macro name=\"wheel\" params=\"name\"&gt; &lt;link name=\"${name}_link\"&gt; &lt;visual&gt; &lt;geometry&gt; &lt;cylinder radius=\"0.1\" length=\"0.05\"/&gt; &lt;/geometry&gt; &lt;/visual&gt; &lt;/link&gt; &lt;joint name=\"${name}_joint\" type=\"continuous\"&gt; &lt;parent link=\"${name}_link\"/&gt; &lt;child link=\"${name}_wheel\"/&gt; &lt;origin xyz=\"0 0 0.05\"/&gt; &lt;axis xyz=\"0 0 1\"/&gt; &lt;/joint&gt; &lt;link name=\"${name}_wheel\"&gt; &lt;visual&gt; &lt;geometry&gt; &lt;cylinder radius=\"0.1\" length=\"0.05\"/&gt; &lt;/geometry&gt; &lt;/visual&gt; &lt;/link&gt; &lt;/xacro:macro&gt; &lt;/robot&gt; . | The wheel macro defines a wheel with a cylinder link and a joint to connect the wheel to the robot. | The wheel macro can be imported into the main URDF using the following syntax: | . &lt;?xml version=\"1.0\"?&gt; &lt;robot name=\"robot\" xmlns:xacro=\"http://www.ros.org/wiki/xacro\"&gt; &lt;xacro:include filename=\"wheel.urdf.xacro\"/&gt; &lt;xacro:wheel name=\"front_left\"/&gt; &lt;xacro:wheel name=\"front_right\"/&gt; &lt;xacro:wheel name=\"rear_left\"/&gt; &lt;xacro:wheel name=\"rear_right\"/&gt; &lt;/robot&gt; . ",
     "url": "/docs/Simulation/baseline_urdf.html#achieving-modular-design",
     
     "relUrl": "/docs/Simulation/baseline_urdf.html#achieving-modular-design"
-  },"12": {
+  },"18": {
+    "doc": "Baseline URDF",
+    "title": "Visualizing the XACRO",
+    "content": ". | The TF2 frames are generated by the robot_state_publisher node. This needs URDF as input | Therefore XACRO needs to be converted to URDF. This can be done in two ways: | . Using xacro Command Line Tool: . ros2 run xacro xacro -o robot.urdf robot.urdf.xacro . Using a Launch File: . import os import launch import xacro import launch_ros.actions from launch import LaunchDescription from launch.substitutions import LaunchConfiguration from launch.actions import DeclareLaunchArgument from launch_ros.actions import Node from ament_index_python.packages import get_package_share_directory def generate_launch_description(): # Check if we're told to use sim time use_sim_time = LaunchConfiguration('use_sim_time') package_dir = get_package_share_directory('simulation_launch') rviz_config_file = os.path.join(package_dir,'rviz', 'rviz_config.rviz') # if using xacro it needs to be processed first xacro_file = os.path.join(package_dir, 'description', 'robot.urdf.xacro') robot_description_config = xacro.process_file(xacro_file) params = {'robot_description': robot_description_config.toxml(), 'use_sim_time': use_sim_time} return LaunchDescription([ DeclareLaunchArgument( 'use_sim_time', default_value='false', description='Use sim time if true'), Node( package='rviz2', executable='rviz2', name='rviz2', output='screen', arguments=['-d', rviz_config_file] ), Node( package='robot_state_publisher', executable='robot_state_publisher', name='robot_state_publisher', output='screen', parameters=[params] ), # Create a joint_state_publisher_gui node Node( package='joint_state_publisher_gui', executable='joint_state_publisher_gui', name='joint_state_publisher_gui', output='screen' ) ]) . NOTE: The joint_state_publisher_gui node is used to publish a TF2 transforms between all non-fixed links in the URDF. This can be done in other nodes as well, but the joint_state_publisher_gui is a convenient . ",
+    "url": "/docs/Simulation/baseline_urdf.html#visualizing-the-xacro",
+    
+    "relUrl": "/docs/Simulation/baseline_urdf.html#visualizing-the-xacro"
+  },"19": {
     "doc": "Baseline URDF",
     "title": "Baseline URDF",
-    "content": ". | Introduction | Baseline URDF . | Achieving Modular Design | . | . ",
+    "content": ". | Introduction | Baseline URDF . | Achieving Modular Design | Visualizing the XACRO . | Using xacro Command Line Tool: | Using a Launch File: | . | . | . ",
     "url": "/docs/Simulation/baseline_urdf.html",
     
     "relUrl": "/docs/Simulation/baseline_urdf.html"
-  },"13": {
+  },"20": {
     "doc": "Bringup and Architecture",
     "title": "Systems Overview",
     "content": " ",
     "url": "/docs/systems_setup/bringup_and_arch.html#systems-overview",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html#systems-overview"
-  },"14": {
+  },"21": {
     "doc": "Bringup and Architecture",
     "title": "Setup and Installation",
     "content": ". | Clone Repository: | . git clone https://github.com/sushanthj/acorn_sim.git . | Install Docker: Link . | Build Docker Image and Start Container: . | . cd acorn_sim/docker docker-compose build docker-compose up -d . | Enter Docker Container: | ./run_sim_docker.sh . | Build Simulation: | . colcon build source install/setup.bash . Note: display driver needs to allow docker to run GUI applications. For Ubuntu, I use the follow command to add docker to the xhost list. xhost +local:docker . | Run Simulation: | . ros2 launch simulation_launch simulation_launch.launch.py Ctrl+C # Stop Simulation . | Close Simulation: | . Ctrl+D # Exit Docker Container docker compose down . ",
     "url": "/docs/systems_setup/bringup_and_arch.html#setup-and-installation",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html#setup-and-installation"
-  },"15": {
+  },"22": {
     "doc": "Bringup and Architecture",
     "title": "Distributed Systems Architecture",
     "content": ". ",
     "url": "/docs/systems_setup/bringup_and_arch.html#distributed-systems-architecture",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html#distributed-systems-architecture"
-  },"16": {
+  },"23": {
     "doc": "Bringup and Architecture",
     "title": "Bringup and Architecture",
     "content": ". | Systems Overview . | Setup and Installation | Distributed Systems Architecture | . | . ",
     "url": "/docs/systems_setup/bringup_and_arch.html",
     
     "relUrl": "/docs/systems_setup/bringup_and_arch.html"
-  },"17": {
+  },"24": {
     "doc": "Home",
     "title": "PFR Gazebo Simulation",
     "content": "This is the documentation for the Acorn Gazebo Simulation. The simulation is a part of the Acorn project, which is a project to develop a low-cost, open-source, and modular robotic platform for research and education. The simulation is developed using the Gazebo simulator and the ROS (Robot Operating System) framework. The simulation is designed to be modular and extensible, so that users can easily add new components and modify existing components. ",
     "url": "/#pfr-gazebo-simulation",
     
     "relUrl": "/#pfr-gazebo-simulation"
-  },"18": {
+  },"25": {
     "doc": "Home",
     "title": "References",
     "content": "Github Project Planning . ",
     "url": "/#references",
     
     "relUrl": "/#references"
-  },"19": {
+  },"26": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "/",
     
     "relUrl": "/"
-  },"20": {
+  },"27": {
     "doc": "Systems Setup",
     "title": "Systems Setup",
     "content": " ",
