@@ -14,8 +14,8 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Process the URDF file
-    pkg_path = os.path.join(get_package_share_directory('simulation_launch'))
-    xacro_file = os.path.join(pkg_path,'description','robot.urdf.xacro')
+    package_dir = os.path.join(get_package_share_directory('simulation_launch'))
+    xacro_file = os.path.join(package_dir,'robot_urdfs', 'acorn_robot','robot.urdf.xacro')
     robot_description_config = xacro.process_file(xacro_file)
 
     # Create a robot_state_publisher node
@@ -27,8 +27,6 @@ def generate_launch_description():
         parameters=[params]
     )
 
-
-    # Launch!
     return LaunchDescription([
         DeclareLaunchArgument(
             'use_sim_time',

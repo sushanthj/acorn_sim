@@ -52,18 +52,18 @@
 
         <!-- Define the wheel link -->
         <xacro:if value="${side == 'left'}">
-            <xacro:property name="wheel_position_y" value="-${width}"/>
-            <xacro:property name="wheel_yaw" value="-${PI/2}"/>
+            <xacro:property name="wheel_position_y" value="${width}"/>
+            <xacro:property name="wheel_pitch" value="-${PI/2}"/>
         </xacro:if>
         <xacro:if value="${side == 'right'}">
-            <xacro:property name="wheel_position_y" value="${width}"/>
-            <xacro:property name="wheel_yaw" value="${PI/2}"/>
+            <xacro:property name="wheel_position_y" value="-${width}"/>
+            <xacro:property name="wheel_pitch" value="${PI/2}"/>
         </xacro:if>
 
         <joint name="wheel_${parent_name}_joint" type="continuous">
             <parent link="wheel_module_${parent_name}"/>
             <child link="wheel_${parent_name}"/>
-            <origin xyz="0 ${wheel_position_y} ${-module_len/2.0}" rpy="0 0 ${wheel_yaw}"/>
+            <origin xyz="0 ${wheel_position_y} ${-module_len/2.0}" rpy="${wheel_pitch} 0 0"/>
             <axis xyz="0 0 1"/>
         </joint>
 
