@@ -40,7 +40,7 @@ xhost +local:docker
 6. Run Simulation:
 
 ```bash
-ros2 launch simulation_launch simulation_launch.launch.py
+ros2 launch nav2_gps_waypoint_follower gps_waypoint_follower_launch.py
 
 Ctrl+C # Stop Simulation
 ```

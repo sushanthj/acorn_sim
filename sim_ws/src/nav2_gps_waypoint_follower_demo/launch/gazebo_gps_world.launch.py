@@ -28,8 +28,8 @@ def generate_launch_description():
     launch_dir = os.path.join(gps_wpf_dir, 'launch')
     world = os.path.join(gps_wpf_dir, "worlds", "sonoma_raceway.world")
 
-    urdf = os.path.join(gps_wpf_dir, 'urdf', 'turtlebot3_waffle_gps.urdf')
-    # urdf = os.path.join(gps_wpf_dir, 'urdf', 'robot.urdf')
+    # urdf = os.path.join(gps_wpf_dir, 'urdf', 'turtlebot3_waffle_gps.urdf')
+    urdf = os.path.join(gps_wpf_dir, 'urdf', 'robot.urdf')
     with open(urdf, 'r') as infp:
         robot_description = infp.read()
 
