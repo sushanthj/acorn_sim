@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="acron">
 
     <!-- <xacro:include filename="robot_core.xacro" /> -->
 
@@ -139,9 +139,6 @@
     <link name="base_scan">
         <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-            <mesh filename="package://turtlebot3_gazebo/models/turtlebot3_common/meshes/lds.dae" scale="0.001 0.001 0.001"/>
-        </geometry>
         <material name="dark"/>
         </visual>
 
@@ -160,5 +157,8 @@
                 izz="0.001" />
         </inertial>
     </link>
+
+    <!-- Include gazebo macros for sim -->
+    <xacro:include filename="gazebo_macro.xacro" />
 
 </robot>

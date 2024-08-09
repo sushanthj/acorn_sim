@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+
+<robot>
+
+<!-- gazebo references for moving parts -->
+
+<gazebo reference="chassis_link">
+<kp>10000.0</kp>
+<kd>10.0</kd>
+<mu1>1.5</mu1>
+<mu2>1.5</mu2>
+<fdir1>0.1 0 0</fdir1>
+<maxVel>10.0</maxVel>
+<minDepth>0.0005</minDepth>
+<material>Gazebo/Black</material>
+</gazebo>
+
+<gazebo reference="wheel_module_front_left">
+<kp>10000.0</kp>
+<kd>10.0</kd>
+<mu1>1.5</mu1>
+<mu2>1.5</mu2>
+<fdir1>0.1 0 0</fdir1>
+<maxVel>10.0</maxVel>
+<minDepth>0.0005</minDepth>
+<material>Gazebo/Black</material>
+</gazebo>
+
+<gazebo reference="wheel_module_front_right">
+<kp>10000.0</kp>
+<kd>10.0</kd>
+<mu1>1.5</mu1>
+<mu2>1.5</mu2>
+<fdir1>0.1 0 0</fdir1>
+<maxVel>10.0</maxVel>
+<minDepth>0.0005</minDepth>
+<material>Gazebo/Black</material>
+</gazebo>
+
+<gazebo reference="wheel_module_rear_left">
+<kp>10000.0</kp>
+<kd>10.0</kd>
+<mu1>1.5</mu1>
+<mu2>1.5</mu2>
+<fdir1>0.1 0 0</fdir1>
+<maxVel>10.0</maxVel>
+<minDepth>0.0005</minDepth>
+<material>Gazebo/Black</material>
+</gazebo>
+
+<gazebo reference="wheel_module_rear_right">
+<kp>10000.0</kp>
+<kd>10.0</kd>
+<mu1>1.5</mu1>
+<mu2>1.5</mu2>
+<fdir1>0.1 0 0</fdir1>
+<maxVel>10.0</maxVel>
+<minDepth>0.0005</minDepth>
+<material>Gazebo/Black</material>
+</gazebo>
+
+<gazebo reference="wheel_front_left">
+<kp>100000.0</kp>
+<kd>50.0</kd>
+<gravity> 1 </gravity>
+<mu1>100</mu1>
+<mu2>100</mu2>
+<minDepth>0.00</minDepth>
+<implicitSpringDamper>1</implicitSpringDamper>
+<material>Gazebo/Grey</material>
+</gazebo>
+
+<gazebo reference="wheel_front_right">
+<kp>100000.0</kp>
+<kd>50.0</kd>
+<gravity> 1 </gravity>
+<mu1>100</mu1>
+<mu2>100</mu2>
+<minDepth>0.00</minDepth>
+<implicitSpringDamper>1</implicitSpringDamper>
+<material>Gazebo/Grey</material>
+</gazebo>
+
+<gazebo reference="wheel_rear_left">
+<kp>100000.0</kp>
+<kd>50.0</kd>
+<gravity> 1 </gravity>
+<mu1>100</mu1>
+<mu2>100</mu2>
+<minDepth>0.00</minDepth>
+<implicitSpringDamper>1</implicitSpringDamper>
+<material>Gazebo/Grey</material>
+</gazebo>
+
+<gazebo reference="wheel_rear_right">
+<kp>100000.0</kp>
+<kd>50.0</kd>
+<gravity> 1 </gravity>
+<mu1>100</mu1>
+<mu2>100</mu2>
+<minDepth>0.00</minDepth>
+<implicitSpringDamper>1</implicitSpringDamper>
+<material>Gazebo/Grey</material>
+</gazebo>
+
+<!-- gazebo references for lidar and imu and gps -->
+
+<gazebo reference="base_scan">
+    <sensor_name="scan" type="ray">
+      <always_on>true</always_on>
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.48</min_angle>
+            <max_angle>1.48</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>30.0</max>
+          <resolution>0.05</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise parameters based on published spec for Hokuyo laser
+                   achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+                   stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+                   reading. -->
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin filename="libgazebo_ros_ray_sensor.so" name="lidar_1">
+        <ros>
+            <!-- <namespace>   </namespace> -->
+            <argument>~/out:=scan</argument>
+        </ros>
+        <!-- Set output to sensor_msgs/LaserScan to get same output type as gazebo_ros_laser -->
+        <output_type>sensor_msgs/LaserScan</output_type>
+        <frame_name>base_scan</frame_name>
+      </plugin>
+    </sensor>
+</gazebo>
+
+<gazebo reference="gps_link">
+    <sensor_name="tb3_gps" type="gps">
+        <always_on>true</always_on>
+        <update_rate>1</update_rate>
+        <pose>0 0 0 0 0 0</pose>
+        <gps>
+            <position_sensing>
+                <horizontal>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </horizontal>
+                <vertical>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </vertical>
+            </position_sensing>
+        </gps>
+        <plugin name="my_gps_plugin" filename="libgazebo_ros_gps_sensor.so">
+            <ros>
+                <remapping>~/out:=/gps/fix</remapping>
+            </ros>
+        </plugin>
+    </sensor>
+</gazebo>
+
+<gazebo reference="imu_link">
+    <sensor_name="tb3_imu" type="imu">
+        <always_on>true</always_on>
+        <update_rate>200</update_rate>
+        <imu>
+            <angular_velocity>
+                <x>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>2e-4</stddev>
+                    </noise>
+                </x>
+                <y>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>2e-4</stddev>
+                    </noise>
+                </y>
+                <z>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>2e-4</stddev>
+                    </noise>
+                </z>
+            </angular_velocity>
+            <linear_acceleration>
+                <x>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>1.7e-2</stddev>
+                    </noise>
+                </x>
+                <y>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>1.7e-2</stddev>
+                    </noise>
+                </y>
+                <z>
+                    <noise type="gaussian">
+                        <mean>0.0</mean>
+                        <stddev>1.7e-2</stddev>
+                    </noise>
+                </z>
+            </linear_acceleration>
+        </imu>
+        <plugin name="turtlebot3_imu" filename="libgazebo_ros_imu_sensor.so">
+            <initial_orientation_as_reference>false</initial_orientation_as_reference>
+            <ros>
+                <!-- <namespace>/tb3</namespace> -->
+                <remapping>~/out:=imu</remapping>
+            </ros>
+        </plugin>
+    </sensor>
+</gazebo>
+
+<!-- Add the skid steering plugin to the robot model: -->
+
+<gazebo>
+    <!-- Use gazebo_ros_joint_state_publisher for publishing joint states -->
+    <plugin name="joint_states" filename="libgazebo_ros_joint_state_publisher.so">
+        <joint_name>wheel_front_left_joint</joint_name>
+        <joint_name>wheel_front_right_joint</joint_name>
+        <joint_name>wheel_rear_left_joint</joint_name>
+        <joint_name>wheel_rear_right_joint</joint_name>
+    </plugin>
+
+    <!-- Skid Steer Drive Plugin -->
+    <plugin name='skid_steer_drive' filename='libgazebo_ros_skid_steer_drive.so'>
+        <ros>
+            <remapping>/tf:=tf</remapping>
+        </ros>
+        <num_wheel_pairs>2</num_wheel_pairs>
+        <update_rate>30</update_rate>
+        <left_joint>wheel_front_left_joint</left_joint>
+        <right_joint>wheel_front_right_joint</right_joint>
+        <left_joint>wheel_rear_left_joint</left_joint>
+        <right_joint>wheel_rear_right_joint</right_joint>
+        <!-- !hard coded values -->
+        <wheel_separation>1.2</wheel_separation>
+        <wheel_diameter>0.3</wheel_diameter>
+        <publish_odom>true</publish_odom>
+        <publish_odom_tf>false</publish_odom_tf>
+        <publish_wheel_tf>false</publish_wheel_tf>
+        <command_topic>cmd_vel</command_topic>
+        <odometry_topic>odom</odometry_topic>
+        <odometry_frame>odom</odometry_frame>
+        <robot_base_frame>base_footprint</robot_base_frame>
+        <max_wheel_torque>1000</max_wheel_torque>
+        <max_acceleration>20.0</max_acceleration>
+    </plugin>
+</gazebo>
+
+
+</robot>
