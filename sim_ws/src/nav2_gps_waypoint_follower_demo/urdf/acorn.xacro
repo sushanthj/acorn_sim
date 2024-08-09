@@ -159,6 +159,6 @@
     </link>
 
     <!-- Include gazebo macros for sim -->
-    <xacro:include filename="gazebo_macro.xacro" />
+    <xacro:include filename="gazebo.xacro" />
 
 </robot>
