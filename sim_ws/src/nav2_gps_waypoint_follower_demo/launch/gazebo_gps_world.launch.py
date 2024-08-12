@@ -23,13 +23,12 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    # Get the launch directory
-    # Get the launch directory
     gps_wpf_dir = get_package_share_directory("nav2_gps_waypoint_follower_demo")
     launch_dir = os.path.join(gps_wpf_dir, 'launch')
     world = os.path.join(gps_wpf_dir, "worlds", "sonoma_raceway.world")
 
-    xacro_file = os.path.join(gps_wpf_dir, 'urdf', 'robot_sim.urdf.xacro')
+    xacro_file = os.path.join(gps_wpf_dir, 'urdf', 'acorn.urdf.xacro')
+    # urdf_file = os.path.join(gps_wpf_dir, 'urdf', 'acorn.urdf') #! Temporary
 
     # Validate the Xacro file using the --check option
     validate_xacro = ExecuteProcess(
@@ -83,18 +82,24 @@ def generate_launch_description():
 
     # Spawning the robot
     spawn_entity = Node(
-        package='gazebo_ros',
-        executable='spawn_entity.py',
-        arguments=['-entity', "acorn", '-topic', '/robot_description'],
-        output='screen'
-    )
+    package='gazebo_ros',
+    executable='spawn_entity.py',
+    arguments=[
+        '-entity', 'acorn',
+        '-topic', '/robot_description',
+        '-x', '0',  # X position
+        '-y', '0',  # Y position
+        '-z', '2.0'  # Z position (set this to your desired height above the ground)
+    ],
+    output='screen'
+)
 
     start_robot_state_publisher_cmd = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
-        parameters=[{'robot_description': robot_description, 'use_sim_time': True}]
+        parameters=[{'robot_description': robot_description, 'use_sim_time': True}],
     )
 
     start_joint_state_publisher_cmd = Node(
@@ -125,7 +130,7 @@ def generate_launch_description():
     # robot state publisher launch
     ld.add_action(start_robot_state_publisher_cmd)
     ld.add_action(spawn_entity)
-    ld.add_action(start_joint_state_publisher_cmd)
+    # ld.add_action(start_joint_state_publisher_cmd)
     ld.add_action(teleop)
 
     return ld

@@ -225,8 +225,11 @@
 
   <!-- Add the skid steering plugin to the robot model -->
   <gazebo>
-    <!-- Use gazebo_ros_joint_state_publisher for publishing joint states -->
+    <!-- Specify joint state publisher here or launch node separately -->
     <plugin name="joint_states" filename="libgazebo_ros_joint_state_publisher.so">
+      <ros>
+          <remapping>~/out:=joint_states</remapping>
+      </ros>
       <joint_name>wheel_front_left_joint</joint_name>
       <joint_name>wheel_front_right_joint</joint_name>
       <joint_name>wheel_rear_left_joint</joint_name>
@@ -234,7 +237,8 @@
     </plugin>
 
     <!-- Skid Steer Drive Plugin -->
-    <plugin name='skid_steer_drive' filename='libgazebo_ros_diff_drive.so'>
+    <!-- NOTE: Skid steer plugin merged with diff drive in ros2 -->
+    <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
       <ros>
         <remapping>/tf:=tf</remapping>
       </ros>
@@ -245,6 +249,8 @@
       <left_joint>wheel_rear_left_joint</left_joint>
       <right_joint>wheel_rear_right_joint</right_joint>
       <wheel_separation>1.2</wheel_separation>
+      <wheel_separation>1.2</wheel_separation>
+      <wheel_diameter>0.3</wheel_diameter>
       <wheel_diameter>0.3</wheel_diameter>
       <publish_odom>true</publish_odom>
       <publish_odom_tf>false</publish_odom_tf>
@@ -252,7 +258,7 @@
       <command_topic>cmd_vel</command_topic>
       <odometry_topic>odom</odometry_topic>
       <odometry_frame>odom</odometry_frame>
-      <robot_base_frame>base_footprint</robot_base_frame>
+      <robot_base_frame>base_link</robot_base_frame>
       <max_wheel_torque>1000</max_wheel_torque>
       <max_acceleration>20.0</max_acceleration>
     </plugin>
