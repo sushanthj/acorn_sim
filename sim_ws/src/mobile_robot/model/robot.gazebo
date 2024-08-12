@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<robot>
+
+<!-- <gazebo reference="body_link">
+<mul1>0.2</mul1>
+<mul2>0.2</mul2>
+<material>Gazebo/Red</material>
+</gazebo> -->
+
+<gazebo reference="wheel1_link">
+<mul1>0.2</mul1>
+<mul2>0.2</mul2>
+<material>Gazebo/Yellow</material>
+</gazebo>
+
+<gazebo reference="wheel2_link">
+<mul1>0.2</mul1>
+<mul2>0.2</mul2>
+<material>Gazebo/Yellow</material>
+</gazebo>
+
+<gazebo reference="wheel3_link">
+<mul1>0.2</mul1>
+<mul2>0.2</mul2>
+<material>Gazebo/Yellow</material>
+</gazebo>
+
+<gazebo reference="wheel4_link">
+<mul1>0.2</mul1>
+<mul2>0.2</mul2>
+<material>Gazebo/Yellow</material>
+</gazebo>
+
+<!-- Controller for 4-wheeled Robot -->
+<gazebo>
+<plugin name="joint_states" filename="libgazebo_ros_joint_state_publisher.so">
+    <ros>
+        <remapping>~/out:=joint_states</remapping>
+    </ros>
+    <joint_name>wheel1_joint</joint_name>
+    <joint_name>wheel2_joint</joint_name>
+    <joint_name>wheel3_joint</joint_name>
+    <joint_name>wheel4_joint</joint_name>
+</plugin>
+
+<!-- Skid Steer Drive Plugin -->
+<!-- NOTE: Skid steer plugin merged with diff drive in ros2 -->
+<plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
+    <ros>
+        <remapping>/tf:=tf</remapping>
+    </ros>
+    <num_wheel_pairs>2</num_wheel_pairs>
+
+    <!-- Pair1 -->
+    <left_joint>wheel4_joint</left_joint>
+    <right_joint>wheel3_joint</right_joint>
+
+    <!-- Pair2 -->
+    <left_joint>wheel2_joint</left_joint>
+    <right_joint>wheel1_joint</right_joint>
+
+
+    <!-- Kinematics -->
+    <wheel_separation>${body_link_y_dim+wheel_link_length}</wheel_separation>
+    <wheel_separation>${body_link_y_dim+wheel_link_length}</wheel_separation>
+
+    <wheel_diameter>${wheel_link_radius}</wheel_diameter>
+    <wheel_diameter>${wheel_link_radius}</wheel_diameter>
+
+    <!-- <wheel_diameter>0.3</wheel_diameter> -->
+    <publish_odom>true</publish_odom>
+    <publish_odom_tf>false</publish_odom_tf>
+    <publish_wheel_tf>false</publish_wheel_tf>
+    <command_topic>cmd_vel</command_topic>
+    <odometry_topic>odom</odometry_topic>
+    <odometry_frame>odom</odometry_frame>
+    <robot_base_frame>base_footprint</robot_base_frame>
+    <max_wheel_torque>1000</max_wheel_torque>
+    <max_acceleration>20.0</max_acceleration>
+</plugin>
+</gazebo>
+</robot>
