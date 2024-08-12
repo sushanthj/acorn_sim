@@ -61,56 +61,70 @@
   </gazebo> -->
 
   <gazebo reference="chassis_link">
-    <mul1>0.2</mul1>
-    <mul2>0.2</mul2>
     <material>Gazebo/Black</material>
   </gazebo>
 
   <gazebo reference="wheel_module_front_left">
-    <mul1>0.2</mul1>
-    <mul2>0.2</mul2>
+    <mul1>1.0</mul1>
+    <mul2>1.0</mul2>
+    <slip1>0.1</slip1>
+    <slip2>0.1</slip2>
     <material>Gazebo/Grey</material>
   </gazebo>
 
   <gazebo reference="wheel_module_front_right">
-    <mul1>0.2</mul1>
-    <mul2>0.2</mul2>
+    <mul1>1.0</mul1>
+    <mul2>1.0</mul2>
+    <slip1>0.1</slip1>
+    <slip2>0.1</slip2>
     <material>Gazebo/Grey</material>
   </gazebo>
 
   <gazebo reference="wheel_module_rear_left">
-    <mul1>0.2</mul1>
-    <mul2>0.2</mul2>
+    <mul1>1.0</mul1>
+    <mul2>1.0</mul2>
+    <slip1>0.1</slip1>
+    <slip2>0.1</slip2>
     <material>Gazebo/Grey</material>
   </gazebo>
 
   <gazebo reference="wheel_module_rear_right">
-    <mul1>0.2</mul1>
-    <mul2>0.2</mul2>
+    <mul1>1.0</mul1>
+    <mul2>1.0</mul2>
+    <slip1>0.1</slip1>
+    <slip2>0.1</slip2>
     <material>Gazebo/Grey</material>
   </gazebo>
 
   <gazebo reference="wheel_front_left">
-    <mul1>0.2</mul1>
-    <mul2>0.2</mul2>
+    <mul1>1.0</mul1>
+    <mul2>1.0</mul2>
+    <slip1>0.1</slip1>
+    <slip2>0.1</slip2>
     <material>Gazebo/Grey</material>
   </gazebo>
 
   <gazebo reference="wheel_front_right">
-    <mul1>0.2</mul1>
-    <mul2>0.2</mul2>
+    <mul1>1.0</mul1>
+    <mul2>1.0</mul2>
+    <slip1>0.1</slip1>
+    <slip2>0.1</slip2>
     <material>Gazebo/Grey</material>
   </gazebo>
 
   <gazebo reference="wheel_rear_left">
-    <mul1>0.2</mul1>
-    <mul2>0.2</mul2>
+    <mul1>1.0</mul1>
+    <mul2>1.0</mul2>
+    <slip1>0.1</slip1>
+    <slip2>0.1</slip2>
     <material>Gazebo/Grey</material>
   </gazebo>
 
   <gazebo reference="wheel_rear_right">
-    <mul1>0.2</mul1>
-    <mul2>0.2</mul2>
+    <mul1>1.0</mul1>
+    <mul2>1.0</mul2>
+    <slip1>0.1</slip1>
+    <slip2>0.1</slip2>
     <material>Gazebo/Grey</material>
   </gazebo>
 
@@ -264,8 +278,8 @@
       <left_joint>wheel_rear_left_joint</left_joint>
       <right_joint>wheel_rear_right_joint</right_joint>
       <!-- Kinematics -->
-      <wheel_separation>1.2</wheel_separation>
-      <wheel_separation>1.2</wheel_separation>
+      <wheel_separation>2.0</wheel_separation>
+      <wheel_separation>2.0</wheel_separation>
       <wheel_diameter>0.3</wheel_diameter>
       <wheel_diameter>0.3</wheel_diameter>
       <publish_odom>true</publish_odom>
@@ -276,7 +290,7 @@
       <odometry_frame>odom</odometry_frame>
       <robot_base_frame>base_footprint</robot_base_frame>
       <max_wheel_torque>1000</max_wheel_torque>
-      <max_acceleration>20.0</max_acceleration>
+      <max_acceleration>30.0</max_acceleration>
     </plugin>
   </gazebo>
 

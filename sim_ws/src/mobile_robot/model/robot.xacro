@@ -3,8 +3,8 @@
 <robot name="differential_drive_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <!-- Body dimensions -->
-<xacro:property name="body_link_x_dim" value="1"/>
-<xacro:property name="body_link_y_dim" value="0.6"/>
+<xacro:property name="body_link_x_dim" value="2.0"/>
+<xacro:property name="body_link_y_dim" value="2.0"/>
 <xacro:property name="body_link_z_dim" value="0.3"/>
 
 <!-- Wheel dimensions -->
@@ -13,8 +13,8 @@
 <xacro:property name="wheel_link_z_location" value="-0.1"/>
 
 <!-- Material Density -->
-<xacro:property name="body_density" value="2710.0"/>
-<xacro:property name="wheel_density" value="2710.0"/>
+<xacro:property name="body_density" value="20.0"/>
+<xacro:property name="wheel_density" value="20.0"/>
 
 <!-- Pi Constant -->
 <xacro:property name="pi_const" value="3.141592265"/>

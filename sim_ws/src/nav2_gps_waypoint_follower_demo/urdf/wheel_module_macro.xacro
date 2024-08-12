@@ -56,8 +56,8 @@
             <parent link="${parent_name}"/>
             <child link="wheel_module_${parent_name}"/>
             <origin xyz="${cx} ${cy} ${cz}" rpy="0 0 0"/> <!-- This origin is where child link is placed w.r.t parent link -->
-            <limit effort="1000" velocity="1000"/>
-            <dynamics damping="1.0" friction="1.0"/>
+            <!-- <limit effort="1000" velocity="1000"/> -->
+            <!-- <dynamics damping="1.0" friction="1.0"/> -->
         </joint>
 
         <!-- Define the wheel module link -->
@@ -96,8 +96,8 @@
             <child link="wheel_${parent_name}"/>
             <origin xyz="0 ${wheel_position_y} ${-module_len/2.0}" rpy="0 0 0"/>
             <axis xyz="0 1 0"/>
-            <limit effort="1000" velocity="1000"/>
-            <dynamics damping="1.0" friction="1.0"/>
+            <limit effort="2000" velocity="2000"/>
+            <dynamics damping="1.0" friction="0.5"/>
         </joint>
 
         <link name="wheel_${parent_name}">

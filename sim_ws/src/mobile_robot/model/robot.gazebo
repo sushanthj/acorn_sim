@@ -9,26 +9,34 @@
 </gazebo> -->
 
 <gazebo reference="wheel1_link">
-<mul1>0.2</mul1>
-<mul2>0.2</mul2>
+<mul1>1.0</mul1>
+<mul2>1.0</mul2>
+<slip1>0.3</slip1>
+<slip2>0.3</slip2>
 <material>Gazebo/Yellow</material>
 </gazebo>
 
 <gazebo reference="wheel2_link">
-<mul1>0.2</mul1>
-<mul2>0.2</mul2>
+<mul1>1.0</mul1>
+<mul2>1.0</mul2>
+<slip1>0.3</slip1>
+<slip2>0.3</slip2>
 <material>Gazebo/Yellow</material>
 </gazebo>
 
 <gazebo reference="wheel3_link">
-<mul1>0.2</mul1>
-<mul2>0.2</mul2>
+<mul1>1.0</mul1>
+<mul2>1.0</mul2>
+<slip1>0.3</slip1>
+<slip2>0.3</slip2>
 <material>Gazebo/Yellow</material>
 </gazebo>
 
 <gazebo reference="wheel4_link">
-<mul1>0.2</mul1>
-<mul2>0.2</mul2>
+<mul1>1.0</mul1>
+<mul2>1.0</mul2>
+<slip1>0.3</slip1>
+<slip2>0.3</slip2>
 <material>Gazebo/Yellow</material>
 </gazebo>
 
@@ -76,8 +84,11 @@
     <odometry_topic>odom</odometry_topic>
     <odometry_frame>odom</odometry_frame>
     <robot_base_frame>base_footprint</robot_base_frame>
-    <max_wheel_torque>1000</max_wheel_torque>
-    <max_acceleration>20.0</max_acceleration>
+    <max_wheel_torque>4000</max_wheel_torque>
+    <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
+    <wheelTorque>4000</wheelTorque>
+    <max_acceleration>40.0</max_acceleration>
+    <torque>0.0</torque>
 </plugin>
 </gazebo>
 </robot>
