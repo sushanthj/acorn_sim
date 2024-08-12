@@ -28,8 +28,8 @@ def generate_launch_description():
     launch_dir = os.path.join(gps_wpf_dir, 'launch')
     world = os.path.join(gps_wpf_dir, "worlds", "sonoma_raceway.world")
 
-    # urdf = os.path.join(gps_wpf_dir, 'urdf', 'turtlebot3_waffle_gps.urdf')
-    urdf = os.path.join(gps_wpf_dir, 'urdf', 'robot.urdf')
+    urdf = os.path.join(gps_wpf_dir, 'urdf', 'turtlebot3_waffle_gps.urdf')
+    # urdf = os.path.join(gps_wpf_dir, 'urdf', 'robot.urdf')
     with open(urdf, 'r') as infp:
         robot_description = infp.read()
 
@@ -66,6 +66,16 @@ def generate_launch_description():
         output='both',
         parameters=[{'robot_description': robot_description}])
 
+    # Starting the teleop node
+    teleop = Node(
+        package='teleop_twist_keyboard',
+        executable="teleop_twist_keyboard",
+        output='screen',
+        prefix='xterm -e',
+        name='teleop'
+    )
+
+
     # Create the launch description and populate
     ld = LaunchDescription()
 
@@ -79,5 +89,6 @@ def generate_launch_description():
 
     # robot state publisher launch
     ld.add_action(start_robot_state_publisher_cmd)
+    ld.add_action(teleop)
 
     return ld
