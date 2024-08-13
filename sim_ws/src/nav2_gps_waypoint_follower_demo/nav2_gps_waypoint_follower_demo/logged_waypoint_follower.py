@@ -1,13 +1,15 @@
 import rclpy
 from nav2_simple_commander.robot_navigator import BasicNavigator
-import yaml
+from geometry_msgs.msg import PoseStamped
+from geographic_msgs.msg import GeoPose
 from ament_index_python.packages import get_package_share_directory
+import yaml
 import os
 import sys
 import time
+from rclpy.time import Time
 
 from nav2_gps_waypoint_follower_demo.utils.gps_utils import latLonYaw2Geopose
-
 
 class YamlWaypointParser:
     """
@@ -22,12 +24,11 @@ class YamlWaypointParser:
         """
         Get an array of geographic_msgs/msg/GeoPose objects from the yaml file
         """
-        gepose_wps = []
+        geopose_wps = []
         for wp in self.wps_dict["waypoints"]:
             latitude, longitude, yaw = wp["latitude"], wp["longitude"], wp["yaw"]
-            gepose_wps.append(latLonYaw2Geopose(latitude, longitude, yaw))
-        return gepose_wps
-
+            geopose_wps.append(latLonYaw2Geopose(latitude, longitude, yaw))
+        return geopose_wps
 
 class GpsWpCommander():
     """
@@ -35,8 +36,26 @@ class GpsWpCommander():
     """
 
     def __init__(self, wps_file_path):
-        self.navigator = BasicNavigator("basic_navigator")
+        self.navigator = BasicNavigator()
         self.wp_parser = YamlWaypointParser(wps_file_path)
+
+    def geopose_to_pose_stamped(self, geopose: GeoPose) -> PoseStamped:
+        """
+        Converts GeoPose to PoseStamped
+        """
+        pose_stamped = PoseStamped()
+        pose_stamped.header.frame_id = 'map'  # Assuming map frame for the navigation
+        pose_stamped.header.stamp = Time().to_msg()
+
+        # Converting GeoPoint to position
+        pose_stamped.pose.position.x = geopose.position.latitude  # Use appropriate transformation if necessary
+        pose_stamped.pose.position.y = geopose.position.longitude  # Use appropriate transformation if necessary
+        pose_stamped.pose.position.z = geopose.position.altitude
+
+        # Orientation remains the same
+        pose_stamped.pose.orientation = geopose.orientation
+
+        return pose_stamped
 
     def start_wpf(self):
         """
@@ -44,11 +63,19 @@ class GpsWpCommander():
         """
         self.navigator.waitUntilNav2Active(localizer='robot_localization')
         wps = self.wp_parser.get_wps()
-        self.navigator.followGpsWaypoints(wps)
-        while (not self.navigator.isTaskComplete()):
-            time.sleep(0.1)
-        print("wps completed successfully")
+        for geopose in wps:
+            pose_stamped = self.geopose_to_pose_stamped(geopose)
+            self.navigator.goToPose(pose_stamped)
 
+            while not self.navigator.isTaskComplete():
+                time.sleep(0.1)
+
+            result = self.navigator.getResult()
+            if result.code != BasicNavigator.TaskResult.SUCCEEDED:
+                self.get_logger().error("Failed to reach waypoint, exiting.")
+                break
+
+        print("Waypoint following completed successfully")
 
 def main():
     rclpy.init()
@@ -63,7 +90,6 @@ def main():
 
     gps_wpf = GpsWpCommander(yaml_file_path)
     gps_wpf.start_wpf()
-
 
 if __name__ == "__main__":
     main()
