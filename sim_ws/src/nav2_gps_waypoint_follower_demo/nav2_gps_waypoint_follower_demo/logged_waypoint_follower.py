@@ -61,7 +61,7 @@ class GpsWpCommander():
         """
         Function to start the waypoint following
         """
-        self.navigator.waitUntilNav2Active(localizer='robot_localization')
+        # self.navigator.waitUntilNav2Active(localizer='robot_localization')
         wps = self.wp_parser.get_wps()
         for geopose in wps:
             pose_stamped = self.geopose_to_pose_stamped(geopose)
