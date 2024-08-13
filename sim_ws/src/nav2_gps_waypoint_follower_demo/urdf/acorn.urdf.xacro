@@ -127,7 +127,17 @@
         <origin xyz="0 0 0" rpy="0 0 0"/>
     </joint>
 
-    <link name="gps_link"/>
+    <link name="gps_link">
+        <inertial>
+            <mass>0.001</mass>
+            <ixx>0.001</ixx>
+            <ixy>0.000</ixy>
+            <ixz>0.000</ixz>
+            <iyy>0.001</iyy>
+            <iyz>0.000</iyz>
+            <izz>0.001</izz>
+        </inertial>
+    </link>
 
     <!-- 2D Lidar placed in front center 20cm below chassis-->
     <joint name="scan_joint" type="fixed">
@@ -139,6 +149,9 @@
     <link name="base_scan">
         <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+            <mesh filename="package://turtlebot3_gazebo/models/turtlebot3_common/meshes/lds.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
         <material name="dark"/>
         </visual>
 

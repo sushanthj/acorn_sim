@@ -64,6 +64,10 @@
     <material>Gazebo/Black</material>
   </gazebo>
 
+  <gazebo reference="base_scan">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
   <gazebo reference="wheel_module_front_left">
     <mul1>1.0</mul1>
     <mul2>1.0</mul2>
@@ -155,7 +159,7 @@
           <stddev>0.01</stddev>
         </noise>
       </ray>
-      <plugin filename="libgazebo_ros_ray_sensor.so" name="lidar_1">
+      <plugin name="turtlebot3_laserscan" filename="libgazebo_ros_ray_sensor.so">
         <ros>
           <argument>~/out:=scan</argument>
         </ros>
