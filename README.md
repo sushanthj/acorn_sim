@@ -5,7 +5,9 @@
 1. Clone Repository:
 
 ```bash
-git clone https://github.com/sushanthj/acorn_sim.git
+git clone --recurse-submodules https://github.com/sushanthj/acorn_sim.git
+cd acorn_sim
+git submodule update --init --recursive
 ```
 
 1. Install Docker: [Link](https://docs.docker.com/engine/install/ubuntu/)
@@ -40,8 +42,9 @@ xhost +local:docker
 6. Run Simulation:
 
 ```bash
-ros2 launch simulation_launch simulation_launch.launch.py
+ros2 launch nav2_gps_waypoint_follower gps_waypoint_follower_launch.py
 
+ros2 run nav2_gps_waypoint_follower_demo latlon_waypoint_follower
 Ctrl+C # Stop Simulation
 ```
 

@@ -1,3 +1,5 @@
+# dockerfile/Dockerfile
+
 FROM osrf/ros:humble-simulation-jammy
 
 RUN useradd -ms /bin/bash admin
@@ -20,9 +22,13 @@ RUN apt update && apt install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy the package-setup directory into the image
 COPY package-setup ./package-setup
 
-RUN cd ./package-setup && ./setup-simulation-custom.sh
+# Make the setup script executable
+RUN chmod +x ./package-setup/setup_simulation.sh
+
+RUN cd ./package-setup && ./setup_simulation.sh
 
 RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 RUN echo "source /opt/ros/humble/setup.bash" >> /home/admin/.bashrc
@@ -31,4 +37,4 @@ RUN echo "source /opt/ros/humble/setup.bash" >> /home/admin/.bashrc
 RUN chown -R admin:admin /home/admin
 
 # Set the entrypoint to bash
-ENTRYPOINT ["bash"] # ! TODO: Change this to the entrypoint.sh
+ENTRYPOINT ["bash"]

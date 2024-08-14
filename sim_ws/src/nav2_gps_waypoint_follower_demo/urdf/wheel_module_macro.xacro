@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <include filename="color_macro.xacro"/>
+    <include filename="inertia_macro.xacro"/>
+
+    <!-- Wheel dimensions -->
+    <xacro:property name="wheel_link_radius" value="0.15"/>
+    <xacro:property name="wheel_link_length" value="0.1"/>
+
+    <!-- Material Density -->
+    <xacro:property name="wheel_density" value="2710.0"/>
+
+    <!-- Pi Constant -->
+    <xacro:property name="pi_const" value="3.141592265"/>
+
+    <!-- Robot body and wheel mass -->
+    <xacro:property name="wheel_mass" value="${wheel_density*pi_const*wheel_link_radius*wheel_link_radius*wheel_link_length}"/>
+
+    <!-- Moments of inertial of the wheel -->
+    <xacro:property name="Iz_wheel" value="${0.5*wheel_mass*wheel_link_radius*wheel_link_radius}"/>
+    <xacro:property name="I_wheel" value="${(1.0/12.0)*wheel_mass*(3*wheel_link_radius*wheel_link_radius+wheel_link_length*wheel_link_length)}"/>
+
+    <!-- macros -->
+
+    <xacro:macro name="inertia_wheel">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="${wheel_mass}"/>
+            <inertia ixx="${I_wheel}" ixy="0.0" ixz="0.0" iyy="${I_wheel}" iyz="0" izz="${Iz_wheel}"/>
+
+        </inertial>
+
+    </xacro:macro>
+
+    <!--
+        A macro to create a wheel module (including links and joints)
+        NOTE: A joint is just a relationship between two links (two frames)
+        Parameters:
+        - parent_name: Name of parent link, e.g. left_rear
+        - mass: Mass of the wheel in kilogram
+        - radius: Radius of the wheel in meters
+        - width: Width of the wheel in meters
+        - module_len: Height of wheel module in meters
+        - cx, cy, cz = The position of center of wheel module w.r.t parent frame
+        - side: left or right
+    -->
+    <xacro:macro name="wheel_assembly" params="parent_name mass radius width module_len module_width_x module_width_y cx cy cz side">
+        <!--
+        Firstly create a link for the wheel module
+        Then create a joint to connect the wheel module to the parent link
+        Then create a link for wheel
+        Then create a joint to connect the wheel to the wheel module
+        -->
+        <joint name="wheel_module_${parent_name}_joint" type="fixed">
+            <parent link="${parent_name}"/>
+            <child link="wheel_module_${parent_name}"/>
+            <origin xyz="${cx} ${cy} ${cz}" rpy="0 0 0"/> <!-- This origin is where child link is placed w.r.t parent link -->
+            <!-- <limit effort="1000" velocity="1000"/> -->
+            <!-- <dynamics damping="1.0" friction="1.0"/> -->
+        </joint>
+
+        <!-- Define the wheel module link -->
+        <link name="wheel_module_${parent_name}">
+            <visual>
+                <origin xyz="0 0 0"/> <!-- This origin is w.r.t the wheel_module_${parent_name} link -->
+                <geometry>
+                    <box size="${module_width_x} ${module_width_y} ${module_len}"/>
+                </geometry>
+                <material name="grey"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0"/> <!-- This origin is w.r.t the wheel_module_${parent_name} link -->
+                <geometry>
+                    <box size="${module_width_x} ${module_width_y} ${module_len}"/>
+                </geometry>
+            </collision>
+            <!-- !Hardcoded mass -->
+            <xacro:inertial_box mass="0.1" x="${module_width_x}" y="${module_width_y}" z="${module_len}">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_box>
+        </link>
+
+        <!-- Define the wheel link -->
+        <xacro:if value="${side == 'left'}">
+            <xacro:property name="wheel_position_y" value="${width}"/>
+            <xacro:property name="wheel_pitch" value="${PI/2}"/>
+        </xacro:if>
+        <xacro:if value="${side == 'right'}">
+            <xacro:property name="wheel_position_y" value="-${width}"/>
+            <xacro:property name="wheel_pitch" value="${PI/2}"/>
+        </xacro:if>
+
+        <joint name="wheel_${parent_name}_joint" type="continuous">
+            <parent link="wheel_module_${parent_name}"/>
+            <child link="wheel_${parent_name}"/>
+            <origin xyz="0 ${wheel_position_y} ${-module_len/2.0}" rpy="0 0 0"/>
+            <axis xyz="0 1 0"/>
+            <limit effort="2000" velocity="2000"/>
+            <dynamics damping="1.0" friction="0.5"/>
+        </joint>
+
+        <link name="wheel_${parent_name}">
+            <visual>
+                <origin rpy="${wheel_pitch} 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder radius="${radius}" length="${width}"/>
+                </geometry>
+                <material name="grey"/>
+            </visual>
+            <collision>
+                <origin rpy="${wheel_pitch} 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder radius="${radius}" length="${width}"/>
+                </geometry>
+            </collision>
+            <!-- <xacro:inertial_cylinder mass="${mass}" length="${width}" radius="${radius}">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_cylinder> -->
+            <xacro:inertia_wheel />
+        </link>
+
+    </xacro:macro>
+
+</robot>
