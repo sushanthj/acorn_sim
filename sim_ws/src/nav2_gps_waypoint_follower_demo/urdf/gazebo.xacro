@@ -60,8 +60,8 @@
     <material>Gazebo/Black</material>
   </gazebo> -->
 
-  <gazebo reference="chassis_link">
-    <material>Gazebo/Black</material>
+  <gazebo reference="chassis">
+    <material>Gazebo/Grey</material>
   </gazebo>
 
   <gazebo reference="base_scan">
