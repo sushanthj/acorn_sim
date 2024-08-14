@@ -5,7 +5,9 @@
 1. Clone Repository:
 
 ```bash
-git clone https://github.com/sushanthj/acorn_sim.git
+git clone --recurse-submodules https://github.com/sushanthj/acorn_sim.git
+cd acorn_sim
+git submodule update --init --recursive
 ```
 
 1. Install Docker: [Link](https://docs.docker.com/engine/install/ubuntu/)
