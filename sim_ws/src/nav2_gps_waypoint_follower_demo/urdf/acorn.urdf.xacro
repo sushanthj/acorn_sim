@@ -173,7 +173,7 @@
 
     <!-- CONTROLLERS -->
     <xacro:macro name="steering_module_controller" params="name">
-        <joint name="wheel_module_${parent_name}_joint">
+        <joint name="wheel_module_${name}_joint">
             <command_interface name="position">
                 <param name="min">-${2 * PI}</param>
                 <param name="max">${2 * PI}</param>

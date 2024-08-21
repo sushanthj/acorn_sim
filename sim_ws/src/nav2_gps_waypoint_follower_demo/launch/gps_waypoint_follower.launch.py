@@ -21,7 +21,10 @@ from launch.substitutions import LaunchConfiguration
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.conditions import IfCondition
+from launch.substitutions import PathJoinSubstitution
+from launch_ros.substitutions import FindPackageShare
 from nav2_common.launch import RewrittenYaml
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
@@ -31,13 +34,14 @@ def generate_launch_description():
         "nav2_gps_waypoint_follower_demo")
     launch_dir = os.path.join(gps_wpf_dir, 'launch')
     params_dir = os.path.join(gps_wpf_dir, "config")
-    nav2_params = os.path.join(params_dir, "nav2_no_map_params.yaml")
+    nav2_params = os.path.join(params_dir, "zinger_no_map.yaml")
     configured_params = RewrittenYaml(
         source_file=nav2_params, root_key="", param_rewrites="", convert_types=True
     )
 
     use_rviz = LaunchConfiguration('use_rviz')
     use_mapviz = LaunchConfiguration('use_mapviz')
+    use_sim_time = LaunchConfiguration('use_sim_time')
 
     declare_use_rviz_cmd = DeclareLaunchArgument(
         'use_rviz',
@@ -48,6 +52,30 @@ def generate_launch_description():
         'use_mapviz',
         default_value='False',
         description='Whether to start mapviz')
+
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='True',
+        description='Use simulation (Gazebo) clock if true')
+
+    controller_config  = PathJoinSubstitution(
+        [
+            FindPackageShare("zinger_swerve_controller"),
+            "config",
+            "swerve.yaml",
+        ]
+    )
+
+    controller_node = Node(
+    package="zinger_swerve_controller",
+    executable="swerve_controller",
+    name="swerve_controller",
+    parameters=[
+        {'use_sim_time': use_sim_time},  # Use LaunchConfiguration
+        controller_config
+    ],
+    output="both",
+    )
 
     gazebo_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -87,6 +115,8 @@ def generate_launch_description():
 
     # simulator launch
     ld.add_action(gazebo_cmd)
+    ld.add_action(declare_use_sim_time_cmd)
+    ld.add_action(controller_node)
 
     #? Delaying these launches for stability
     # robot localization launch
@@ -100,39 +130,5 @@ def generate_launch_description():
     ld.add_action(rviz_cmd)
     ld.add_action(declare_use_mapviz_cmd)
     ld.add_action(mapviz_cmd)
-
-    # delayed_rviz = TimerAction(
-    #     period=10.0,
-    #     actions=[
-    #         declare_use_rviz_cmd,
-    #         rviz_cmd,
-    #     ]
-    # )
-    # ld.add_action(delayed_rviz)
-
-    # delayed_robot_localization = TimerAction(
-    #     period=20.0,
-    #     actions=[
-    #         robot_localization_cmd
-    #     ]
-    # )
-    # ld.add_action(delayed_robot_localization)
-
-    # delayed_nav2 = TimerAction(
-    #     period=30.0,
-    #     actions=[
-    #         navigation2_cmd
-    #     ]
-    # )
-    # ld.add_action(delayed_nav2)
-
-    # delayed_visualization = TimerAction(
-    #     period=30.0,
-    #     actions=[
-    #         declare_use_mapviz_cmd,
-    #         mapviz_cmd
-    #     ]
-    # )
-    # ld.add_action(delayed_visualization)
 
     return ld
