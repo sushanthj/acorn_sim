@@ -50,6 +50,8 @@ sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-joy
 
 #Teleop-key
 sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-keyboard
+sudo apt update
+sudo apt-get install ros-$ROS_DISTRO-ros2-control ros-$ROS_DISTRO-ros2-controllers
 
 # rviz
 sudo apt install -y ros-$ROS_DISTRO-rviz2
