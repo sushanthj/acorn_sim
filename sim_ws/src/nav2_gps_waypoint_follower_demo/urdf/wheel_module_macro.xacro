@@ -52,10 +52,11 @@
         Then create a link for wheel
         Then create a joint to connect the wheel to the wheel module
         -->
-        <joint name="wheel_module_${parent_name}_joint" type="fixed">
+        <joint name="wheel_module_${parent_name}_joint" type="continuous">
             <parent link="${parent_name}"/>
             <child link="wheel_module_${parent_name}"/>
             <origin xyz="${cx} ${cy} ${cz}" rpy="0 0 0"/> <!-- This origin is where child link is placed w.r.t parent link -->
+            <axis xyz="0 0 1"/>
             <!-- <limit effort="1000" velocity="1000"/> -->
             <!-- <dynamics damping="1.0" friction="1.0"/> -->
         </joint>
@@ -114,9 +115,6 @@
                     <cylinder radius="${radius}" length="${width}"/>
                 </geometry>
             </collision>
-            <!-- <xacro:inertial_cylinder mass="${mass}" length="${width}" radius="${radius}">
-                <origin xyz="0 0 0" rpy="0 0 0"/>
-            </xacro:inertial_cylinder> -->
             <xacro:inertia_wheel />
         </link>
 

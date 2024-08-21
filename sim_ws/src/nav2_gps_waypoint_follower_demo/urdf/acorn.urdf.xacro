@@ -171,6 +171,38 @@
         </inertial>
     </link>
 
+    <!-- CONTROLLERS -->
+    <xacro:macro name="steering_module_controller" params="name">
+        <joint name="wheel_module_${parent_name}_joint">
+            <command_interface name="position">
+                <param name="min">-${2 * PI}</param>
+                <param name="max">${2 * PI}</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="acceleration"/>
+        </joint>
+        <joint name="wheel_${name}_joint">
+            <command_interface name="velocity">
+                <param name="min">-1</param>
+                <param name="max">1</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="acceleration"/>
+        </joint>
+    </xacro:macro>
+
+    <ros2_control name="ZingerJointControl" type="system">
+        <hardware>
+            <plugin>ign_ros2_control/IgnitionSystem</plugin>
+        </hardware>
+        <xacro:steering_module_controller name="front_left" />
+        <xacro:steering_module_controller name="rear_left" />
+        <xacro:steering_module_controller name="rear_right" />
+        <xacro:steering_module_controller name="front_right" />
+    </ros2_control>
+
     <!-- Include gazebo macros for sim -->
     <xacro:include filename="gazebo.xacro" />
 

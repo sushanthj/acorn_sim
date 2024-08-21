@@ -1,0 +1,28 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 250  # Hz
+
+    drive_module_steering_angle_controller:
+      type: position_controllers/JointGroupPositionController
+
+    drive_module_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+drive_module_steering_angle_controller:
+  ros__parameters:
+    joints:
+      - wheel_module_front_left_joint
+      - wheel_module_rear_left_joint
+      - wheel_module_rear_right_joint
+      - wheel_module_front_right_joint
+
+drive_module_velocity_controller:
+  ros__parameters:
+    joints:
+      - wheel_front_left_joint
+      - wheel_rear_left_joint
+      - wheel_rear_right_joint
+      - wheel_front_right_joint
