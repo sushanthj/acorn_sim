@@ -29,6 +29,7 @@ docker-compose up -d
 4. Build Simulation:
 
 ```bash
+cd sim_ws
 colcon build
 source install/setup.bash
 ```
