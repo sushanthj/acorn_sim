@@ -101,10 +101,7 @@ def main():
     # allow to pass the waypoints file as an argument
     default_yaml_file_path = os.path.join(get_package_share_directory(
         "nav2_gps_waypoint_follower_demo"), "config", "demo_waypoints.yaml")
-    if len(sys.argv) > 1:
-        yaml_file_path = sys.argv[1]
-    else:
-        yaml_file_path = default_yaml_file_path
+    yaml_file_path = default_yaml_file_path
 
     gps_wpf = GpsWpCommander(yaml_file_path)
     gps_wpf.start_wpf()
